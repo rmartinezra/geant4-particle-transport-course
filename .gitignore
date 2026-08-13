@@ -17,6 +17,11 @@
 **/data/*.hdf5
 **/data/*.npy
 **/data/*.npz
+*.csv
+*.root
+*.hdf5
+*.npy
+*.npz
 **/*.wrl
 **/logs/
 *.log
@@ -46,4 +51,3 @@ G4ENSDFSTATE*/
 G4CHANNELING*/
 G4TENDL*/
 *.tmp
-

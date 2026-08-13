@@ -1,0 +1,23 @@
+# VRML2 headless: primeras interacciones Compton (10 eventos).
+/control/verbose 1
+/run/verbose 1
+/random/setSeeds 10201 10202
+/testem/det/setMat G4_Al
+/testem/det/setSize 5 cm
+/testem/phys/addPhysics standard
+/run/initialize
+/run/setCut 1 nm
+/process/inactivate phot
+/process/inactivate conv
+/process/inactivate GammaToMuPair
+/gun/particle gamma
+/gun/energy 300 keV
+/vis/open VRML2FILE
+/vis/viewer/set/autoRefresh false
+/vis/drawVolume
+/tracking/storeTrajectory 1
+/vis/scene/add/trajectories smooth
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/scene/endOfEventAction accumulate
+/run/beamOn 10
+/vis/viewer/flush

@@ -1,0 +1,24 @@
+# VRML2 headless: mu+ de 5 GeV a través de 100 cm de hierro (10 eventos).
+/control/verbose 1
+/run/verbose 1
+/random/setSeeds 10301 10302
+/testem/det/setAbsMat G4_Fe
+/testem/det/setAbsThick 100 cm
+/testem/det/setAbsYZ 30 cm
+/testem/det/setWorldX 101 cm
+/testem/det/setWorldYZ 31 cm
+/testem/phys/addPhysics emstandard_opt0
+/run/setCut 1 mm
+/run/initialize
+/testem/gun/setDefault
+/gun/particle mu+
+/gun/energy 5 GeV
+/tracking/storeTrajectory 1
+/vis/open VRML2FILE
+/vis/viewer/set/autoRefresh false
+/vis/drawVolume
+/vis/scene/add/trajectories smooth
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/scene/endOfEventAction accumulate
+/run/beamOn 10
+/vis/viewer/flush

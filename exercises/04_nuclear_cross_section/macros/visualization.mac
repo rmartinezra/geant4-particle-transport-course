@@ -1,0 +1,23 @@
+# VRML2 headless: fisión de neutrones de 1 eV en U-235 (10 eventos).
+# El ejecutor define G4COURSE_KEEP_SECONDARIES=1 para dibujar los productos.
+/control/verbose 1
+/run/verbose 1
+/random/setSeeds 10501 10502
+/testhadr/det/setMat U235
+/testhadr/det/setSize 2 cm
+/run/initialize
+/gun/particle neutron
+/gun/energy 1 eV
+/process/inactivate hadElastic
+/process/inactivate neutronInelastic
+/process/inactivate nCapture
+/testhadr/run/printStat false
+/tracking/storeTrajectory 1
+/vis/open VRML2FILE
+/vis/viewer/set/autoRefresh false
+/vis/drawVolume
+/vis/scene/add/trajectories smooth
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/scene/endOfEventAction accumulate
+/run/beamOn 10
+/vis/viewer/flush
