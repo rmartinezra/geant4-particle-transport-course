@@ -41,6 +41,7 @@ target_link_libraries(TestEm14 ${Geant4_LIBRARIES} ${HBOOK_LIBRARIES})
 #
 set(TestEm14_SCRIPTS
     macros/compton.mac macros/compton_test.mac macros/vis.mac
+    macros/visualization.mac
   )
 
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/macros)

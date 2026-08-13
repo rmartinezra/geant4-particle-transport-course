@@ -53,9 +53,6 @@ void Run::SetPrimary(G4ParticleDefinition* particle, G4double energy)
 { 
   fParticle = particle;
   fEkin = energy;
-  
-  //compute theta0
-  fMscThetaCentral = 3*ComputeMscHighland();
 }
  
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -68,8 +65,6 @@ void Run::Merge(const G4Run* run)
   fParticle = localRun->fParticle;
   fEkin     = localRun->fEkin;
   
-  fMscThetaCentral = localRun->fMscThetaCentral;
-
   // accumulate sums
   //
   fEnergyDeposit   += localRun->fEnergyDeposit;  
@@ -82,8 +77,6 @@ void Run::Merge(const G4Run* run)
   fNbStepsCharged2 += localRun->fNbStepsCharged2;
   fNbStepsNeutral  += localRun->fNbStepsNeutral;
   fNbStepsNeutral2 += localRun->fNbStepsNeutral2;
-  fMscProjecTheta  += localRun->fMscProjecTheta;
-  fMscProjecTheta2 += localRun->fMscProjecTheta2;
 
   fTypes[0] += localRun->fTypes[0];
   fTypes[1] += localRun->fTypes[1];
@@ -98,8 +91,6 @@ void Run::Merge(const G4Run* run)
   fTransmit[1] += localRun->fTransmit[1];
   fReflect[0]  += localRun->fReflect[0];
   fReflect[1]  += localRun->fReflect[1];
-  
-  fMscEntryCentral += localRun->fMscEntryCentral;
   
   fEnergyLeak[0]  += localRun->fEnergyLeak[0];
   fEnergyLeak[1]  += localRun->fEnergyLeak[1];
@@ -158,16 +149,6 @@ void Run::EndOfRun()
   reflect[0] = 100.*fReflect[0]/TotNbofEvents;
   reflect[1] = 100.*fReflect[1]/TotNbofEvents;
 
-  G4double rmsMsc = 0., tailMsc = 0.;
-  if (fMscEntryCentral > 0) {
-    fMscProjecTheta /= fMscEntryCentral; fMscProjecTheta2 /= fMscEntryCentral;
-    rmsMsc = fMscProjecTheta2 - fMscProjecTheta*fMscProjecTheta;
-    if (rmsMsc > 0.) { rmsMsc = std::sqrt(rmsMsc); }
-    if(fTransmit[1] > 0.0) {
-      tailMsc = 100.- (100.*fMscEntryCentral)/(2*fTransmit[1]);
-    }    
-  }
-  
   fEnergyLeak[0] /= TotNbofEvents; fEnergyLeak2[0] /= TotNbofEvents;
   G4double rmsEl0 = fEnergyLeak2[0] - fEnergyLeak[0]*fEnergyLeak[0];
   if (rmsEl0>0.) rmsEl0 = std::sqrt(rmsEl0/TotNbofEvents);
@@ -272,18 +253,9 @@ void Run::EndOfRun()
   G4cout << " Number of events with at least  1 particle reflected "
          << "(same charge as primary) = " << reflect[0] << " %" << G4endl;
 
-  // compute width of the Gaussian central part of the MultipleScattering
-  //
-  G4cout << "\n MultipleScattering:" 
-         << "\n  rms proj angle of transmit primary particle = "
-         << rmsMsc/mrad << " mrad (central part only)" << G4endl;
-
-  G4cout << "  computed theta0 (Highland formula)          = "
-         << ComputeMscHighland()/mrad << " mrad" << G4endl;
-           
-  G4cout << "  central part defined as +- "
-         << fMscThetaCentral/mrad << " mrad; " 
-         << "  Tail ratio = " << tailMsc << " %" << G4endl;
+  G4cout << "\n MultipleScattering: las direcciones de salida se guardaron"
+         << " evento a evento. Las anchuras y cuantiles se calculan sin"
+         << " referencia analitica en analysis/analyze_mcs.py." << G4endl;
 
   // gamma process counts
   //
@@ -313,26 +285,5 @@ void Run::EndOfRun()
   // reset default precision
   G4cout.precision(prec);
 }   
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-G4double Run::ComputeMscHighland()
-{
-  //compute the width of the Gaussian central part of the MultipleScattering
-  //projected angular distribution.
-  //Eur. Phys. Jour. C15 (2000) page 166, formule 23.9
-
-  G4double t = (fDetector->GetAbsorberThickness())
-              /(fDetector->GetAbsorberMaterial()->GetRadlen());
-  if (t < DBL_MIN) return 0.;
-
-  G4double T = fEkin;
-  G4double M = fParticle->GetPDGMass();
-  G4double z = std::abs(fParticle->GetPDGCharge()/eplus);
-
-  G4double bpc = T*(T+2*M)/(T+M);
-  G4double teta0 = 13.6*MeV*z*std::sqrt(t)*(1.+0.038*std::log(t))/bpc;
-  return teta0;
-}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

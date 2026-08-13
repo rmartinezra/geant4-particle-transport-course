@@ -42,6 +42,8 @@
 #include "G4Isotope.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4HadronicProcess.hh"
+
+#include <cstdlib>
                            
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -209,9 +211,11 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     
   fParticleFlag.clear();
               
-  // kill event after first interaction
-  //
-  G4RunManager::GetRunManager()->AbortEvent();  
+  // Production needs only the first interaction. During VRML generation the
+  // documented flag keeps real fission secondaries alive for visualization.
+  if (std::getenv("G4COURSE_KEEP_SECONDARIES") == nullptr) {
+    G4RunManager::GetRunManager()->AbortEvent();
+  }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

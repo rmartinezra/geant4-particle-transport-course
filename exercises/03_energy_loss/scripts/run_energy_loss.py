@@ -27,15 +27,18 @@ EVENT_FIELDS = (
     "bremsstrahlung_loss_MeV", "pair_production_loss_MeV", "other_loss_MeV",
     "primary_continuous_deposit_MeV", "secondary_deposit_MeV",
 )
+EVENT_OUTPUT_FIELDS = EVENT_FIELDS + ("secondary_energy_transferred_MeV",)
 THICKNESS_FIELDS = (
     "thickness_cm", "areal_density_g_cm2", "energy_initial_GeV", "N_generated", "N_transmitted",
-    "mean_energy_loss_MeV", "std_energy_loss_MeV", "median_energy_loss_MeV",
-    "mean_final_energy_MeV", "mean_final_energy_GeV", "material", "density_g_cm3", "sem_energy_loss_MeV",
+    "mean_energy_loss_MeV", "std_energy_loss_MeV", "sem_energy_loss_MeV",
+    "median_energy_loss_MeV", "q16_energy_loss_MeV", "q84_energy_loss_MeV",
+    "mean_final_energy_MeV", "mean_final_energy_GeV", "material", "density_g_cm3",
 )
 ENERGY_FIELDS = (
     "energy_GeV", "beta", "gamma", "beta_gamma", "thickness_cm",
     "N_generated", "N_transmitted", "fraction_stopped", "mean_energy_loss_MeV",
-    "std_energy_loss_MeV", "sem_energy_loss_MeV", "mean_dedx_MeV_cm",
+    "std_energy_loss_MeV", "sem_energy_loss_MeV", "median_energy_loss_MeV",
+    "q16_energy_loss_MeV", "q84_energy_loss_MeV", "mean_dedx_MeV_cm",
     "mass_stopping_power_MeV_cm2_g", "mean_final_energy_MeV", "density_g_cm3",
     "reference_dedx_MeV_cm",
 )
@@ -57,6 +60,8 @@ def arguments() -> argparse.Namespace:
     parser.add_argument("--representative-events", type=int, default=None)
     parser.add_argument("--seed", type=int, default=2026081203)
     parser.add_argument("--tag", default="final")
+    parser.add_argument("--output-dir", type=Path, default=project / "data")
+    parser.add_argument("--logs-dir", type=Path, default=project / "logs")
     parser.add_argument("--jobs", type=int, default=4,
                         help="procesos Geant4 independientes; cada proceso es monohilo")
     parser.add_argument("--force", action="store_true")
@@ -157,12 +162,15 @@ def run_one(executable: Path, session: Path, label: str, events: int, energy_gev
 
 def stats(data: dict[str, np.ndarray]) -> dict[str, float | int]:
     loss = data["energy_loss_MeV"]
+    q16, median, q84 = np.quantile(loss, (0.16, 0.50, 0.84))
     return {
         "N_generated": len(loss),
         "N_transmitted": int(np.count_nonzero(data["transmitted"] > 0.5)),
         "mean_energy_loss_MeV": float(loss.mean()),
         "std_energy_loss_MeV": float(loss.std(ddof=1)),
-        "median_energy_loss_MeV": float(np.median(loss)),
+        "median_energy_loss_MeV": float(median),
+        "q16_energy_loss_MeV": float(q16),
+        "q84_energy_loss_MeV": float(q84),
         "mean_final_energy_MeV": float(data["final_energy_MeV"].mean()),
         "density_g_cm3": float(data["density_g_cm3"][0]),
         "sem_energy_loss_MeV": float(loss.std(ddof=1)/math.sqrt(len(loss))),
@@ -185,7 +193,7 @@ def main() -> int:
     if not executable.is_file():
         raise SystemExit(f"No existe {executable}; ejecute ../../build_all.sh")
     project = Path(__file__).resolve().parents[1]
-    output_dir = project / "data" if args.tag == "final" else project / "data" / "pilots" / args.tag
+    output_dir = args.output_dir.resolve() if args.tag == "final" else args.output_dir.resolve() / "pilots" / args.tag
     output_dir.mkdir(parents=True, exist_ok=True)
     filenames = ("thickness_scan.csv", "energy_scan.csv", "energy_loss_events.csv", "process_contributions.csv")
     outputs = [output_dir / name for name in filenames]
@@ -193,7 +201,7 @@ def main() -> int:
     if collisions and not args.force:
         raise SystemExit(f"Ya existen {collisions}; use --force")
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    session = project / "logs" / f"{args.tag}_{args.events}_{stamp}"
+    session = args.logs_dir.resolve() / f"{args.tag}_{args.events}_{stamp}"
     session.mkdir(parents=True, exist_ok=False)
     if args.jobs < 1:
         raise SystemExit("--jobs debe ser positivo")
@@ -244,6 +252,9 @@ def main() -> int:
                     "fraction_stopped": 1.0-summary["N_transmitted"]/summary["N_generated"],
                     "mean_energy_loss_MeV": mean_loss, "std_energy_loss_MeV": summary["std_energy_loss_MeV"],
                     "sem_energy_loss_MeV": summary["sem_energy_loss_MeV"],
+                    "median_energy_loss_MeV": summary["median_energy_loss_MeV"],
+                    "q16_energy_loss_MeV": summary["q16_energy_loss_MeV"],
+                    "q84_energy_loss_MeV": summary["q84_energy_loss_MeV"],
                     "mean_dedx_MeV_cm": mean_loss,
                     "mass_stopping_power_MeV_cm2_g": mean_loss/summary["density_g_cm3"],
                     "mean_final_energy_MeV": summary["mean_final_energy_MeV"],
@@ -277,7 +288,14 @@ def main() -> int:
 
     write_csv(outputs[0], THICKNESS_FIELDS, thickness_rows)
     write_csv(outputs[1], ENERGY_FIELDS, energy_rows)
-    write_csv(outputs[2], EVENT_FIELDS, [{field: row[field] for field in EVENT_FIELDS} for row in representative])
+    representative_output = []
+    for row in representative:
+        converted = {field: row[field] for field in EVENT_FIELDS}
+        converted["secondary_energy_transferred_MeV"] = (
+            float(row["energy_loss_MeV"]) - float(row["primary_continuous_deposit_MeV"])
+        )
+        representative_output.append(converted)
+    write_csv(outputs[2], EVENT_OUTPUT_FIELDS, representative_output)
     write_csv(outputs[3], PROCESS_FIELDS, process_rows)
     # Canonical course filename; energy_scan.csv is retained as a convenient
     # richer alias used by the analysis script.

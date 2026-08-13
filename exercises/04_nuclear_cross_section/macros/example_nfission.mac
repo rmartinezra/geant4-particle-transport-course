@@ -1,14 +1,14 @@
-# Captura n + 10B a 1 eV; escapes a 300 cm son censura derecha.
+# Fisión n + U-235 a 1 eV; escapes a 0.5 cm son censura derecha.
 /control/verbose 1
 /run/verbose 1
 /random/setSeeds 2026081204 2026081205
-/testhadr/det/setIsotopeMat B10 5 10 2.46 g/cm3
-/testhadr/det/setSize 300 cm
+/testhadr/det/setMat U235
+/testhadr/det/setSize 0.5 cm
 /run/initialize
 /gun/particle neutron
 /gun/energy 1 eV
 /process/inactivate hadElastic
 /process/inactivate neutronInelastic
-/process/inactivate nFission
+/process/inactivate nCapture
 /testhadr/run/printStat false
 /run/beamOn 1000

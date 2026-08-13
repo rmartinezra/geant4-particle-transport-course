@@ -41,6 +41,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--representative-events", type=int, default=None)
     parser.add_argument("--seed", type=int, default=2026081202)
     parser.add_argument("--tag", default="final", help="final escribe los CSV principales; otro tag va a data/pilots/TAG")
+    parser.add_argument("--output-dir", type=Path, default=project / "data")
+    parser.add_argument("--logs-dir", type=Path, default=project / "logs")
     parser.add_argument("--jobs", type=int, default=4,
                         help="procesos Geant4 independientes en paralelo; cada uno sigue siendo monohilo")
     parser.add_argument("--force", action="store_true")
@@ -178,7 +180,7 @@ def main() -> int:
     if not executable.is_file():
         raise SystemExit(f"No existe {executable}; ejecute ../../build_all.sh")
     project = Path(__file__).resolve().parents[1]
-    output_dir = project / "data" if args.tag == "final" else project / "data" / "pilots" / args.tag
+    output_dir = args.output_dir.resolve() if args.tag == "final" else args.output_dir.resolve() / "pilots" / args.tag
     output_dir.mkdir(parents=True, exist_ok=True)
     outputs = [output_dir / "thickness_scan.csv", output_dir / "energy_scan.csv", output_dir / "angular_events.csv"]
     collisions = [path for path in outputs if path.exists()]
@@ -186,7 +188,7 @@ def main() -> int:
         raise SystemExit(f"Ya existen {collisions}; use --force para reemplazarlos")
 
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    session = project / "logs" / f"{args.tag}_{args.events}_{stamp}"
+    session = args.logs_dir.resolve() / f"{args.tag}_{args.events}_{stamp}"
     session.mkdir(parents=True, exist_ok=False)
     if args.jobs < 1:
         raise SystemExit("--jobs debe ser positivo")

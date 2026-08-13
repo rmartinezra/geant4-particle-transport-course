@@ -82,15 +82,14 @@ int main(int argc,char** argv) {
   G4ParticleHPManager::GetInstance()->SetUseNRESP71Model( false );
 
   //initialize visualization
-  G4VisManager* visManager = nullptr;
+  G4VisManager* visManager = new G4VisExecutive;
+  visManager->Initialize();
 
   //get the pointer to the User Interface manager
   G4UImanager* UImanager = G4UImanager::GetUIpointer();
 
   if (ui) {
     //interactive mode
-    visManager = new G4VisExecutive;
-    visManager->Initialize();
     ui->SessionStart();
     delete ui;
   }

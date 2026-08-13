@@ -63,11 +63,6 @@ public:
   void AddTrakLenNeutr (G4double length)
   {fTrakLenNeutral += length; fTrakLenNeutral2 += length*length;};
 
-  void AddMscProjTheta (G4double theta)
-  { if (std::abs(theta) <= fMscThetaCentral) { fMscEntryCentral++;
-      fMscProjecTheta += theta;  fMscProjecTheta2 += theta*theta;}
-  };
-
   void CountStepsCharg (G4int nSteps)
   {fNbStepsCharged += nSteps; fNbStepsCharged2 += nSteps*nSteps;};
 
@@ -90,8 +85,6 @@ public:
   void AddEnergyLeak (G4double eleak, G4int index)
   {fEnergyLeak[index] += eleak; fEnergyLeak2[index] += eleak*eleak;};
             
-  G4double ComputeMscHighland();
-
   void CountGammaProcesses(G4int* type)
   { for(G4int i=0; i<4; ++i) { fTypes[i] += type[i]; }} 
                
@@ -109,12 +102,9 @@ private:
   G4double fTrakLenNeutral = 0., fTrakLenNeutral2 = 0.;
   G4double fNbStepsCharged = 0., fNbStepsCharged2 = 0.;
   G4double fNbStepsNeutral = 0., fNbStepsNeutral2 = 0.;
-  G4double fMscProjecTheta = 0., fMscProjecTheta2 = 0.;
-  G4double fMscThetaCentral = 0.;
     
   G4int fNbGamma = 0, fNbElect = 0, fNbPosit = 0;
   G4int fTransmit[2] = {0,0}, fReflect[2] = {0,0};
-  G4int fMscEntryCentral = 0;
   G4int fTypes[4] = {0,0,0,0};
       
   G4double fEnergyLeak[2] = {0,0},  fEnergyLeak2[2] = {0,0};
@@ -123,4 +113,3 @@ private:
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-

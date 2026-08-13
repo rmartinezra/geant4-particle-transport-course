@@ -226,11 +226,8 @@ void TrackingAction::PostUserTrackingAction(const G4Track* aTrack)
     if (direction.x() != 0.0) {
       G4double tet = std::atan(direction.y()/std::fabs(direction.x()));
       analysisManager->FillH1(id,tet);
-      if (transmit && (flag == 2)) run->AddMscProjTheta(tet);
-
       tet = std::atan(direction.z()/std::fabs(direction.x()));
       analysisManager->FillH1(id,tet);
-      if (transmit && (flag == 2)) run->AddMscProjTheta(tet);
     }
   }
 

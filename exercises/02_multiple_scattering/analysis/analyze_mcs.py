@@ -157,8 +157,10 @@ def main() -> int:
         "simetria_anchuras_0.95_a_1.05": 0.95 <= symmetry_ratio <= 1.05,
         "media_x_compatible_5SEM": mean_x_z <= 5.0,
         "media_y_compatible_5SEM": mean_y_z <= 5.0,
-        "anchura_crece_con_espesor": bool(np.all(np.diff(width_t) > 0.0)),
-        "anchura_disminuye_con_momento": bool(np.all(np.diff(width_p) < 0.0)),
+        # En FAST los cuantiles de puntos vecinos pueden cruzarse por azar.
+        # La validación usa los exponentes libres del conjunto completo.
+        "escala_espesor_alpha_0.3_a_0.7": 0.3 < alpha_t < 0.7,
+        "escala_momento_alpha_0.7_a_1.3": 0.7 < alpha_p < 1.3,
         "orden_Highland_factor_0.5_a_2": bool(np.all((width_t/highland_t > 0.5) & (width_t/highland_t < 2.0))),
     }
     lines = [

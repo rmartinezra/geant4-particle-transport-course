@@ -20,6 +20,7 @@ def arguments() -> argparse.Namespace:
     parser.add_argument("--energy-kev", type=float, default=300.0)
     parser.add_argument("--seed", type=int, default=20260812)
     parser.add_argument("--output", type=Path, default=project / "data" / "compton_events.csv")
+    parser.add_argument("--logs-dir", type=Path, default=project / "logs")
     parser.add_argument("--force", action="store_true")
     return parser.parse_args()
 
@@ -57,7 +58,7 @@ def main() -> int:
 
     project = Path(__file__).resolve().parents[1]
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    run_dir = project / "logs" / f"kinematics_{stamp}"
+    run_dir = args.logs_dir.resolve() / f"kinematics_{stamp}"
     run_dir.mkdir(parents=True, exist_ok=False)
     macro = run_dir / "compton_runtime.mac"
     log = run_dir / "compton_runtime.log"

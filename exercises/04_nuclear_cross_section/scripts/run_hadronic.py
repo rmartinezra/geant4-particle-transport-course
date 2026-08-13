@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mide la longitud libre de captura n+10B conservando escapes censurados."""
+"""Mide la longitud libre de fisión n+U-235 conservando escapes censurados."""
 
 from __future__ import annotations
 
@@ -23,7 +23,8 @@ EVENT_FIELDS = (
 )
 CANONICAL_FIELDS = (
     "event_id", "particle", "energy", "material", "interaction_occurred",
-    "interaction_distance_cm", "process_name", "target_nucleus_if_available",
+    "interaction_distance_cm", "escaped", "distance_inside_material_cm",
+    "process_name", "target_nucleus_if_available",
 )
 
 
@@ -33,10 +34,12 @@ def arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--executable", type=Path, default=root / "build" / "experiment04_hadronic" / "Hadr03")
     parser.add_argument("--events", type=int, default=100_000)
-    parser.add_argument("--length-cm", type=float, default=300.0,
-                        help="volumen largo; cualquier escape se conserva como censura derecha")
+    parser.add_argument("--length-cm", type=float, default=0.5,
+                        help="longitud finita de U-235; los escapes son censura derecha")
     parser.add_argument("--seed", type=int, default=2026081204)
     parser.add_argument("--tag", default="final")
+    parser.add_argument("--output-dir", type=Path, default=project / "data")
+    parser.add_argument("--logs-dir", type=Path, default=project / "logs")
     parser.add_argument("--force", action="store_true")
     return parser.parse_args()
 
@@ -46,14 +49,14 @@ def macro_text(events: int, length_cm: float, seed1: int, seed2: int) -> str:
 /control/verbose 1
 /run/verbose 1
 /random/setSeeds {seed1} {seed2}
-/testhadr/det/setIsotopeMat B10 5 10 2.46 g/cm3
+/testhadr/det/setMat U235
 /testhadr/det/setSize {length_cm:.12g} cm
 /run/initialize
 /gun/particle neutron
 /gun/energy 1 eV
 /process/inactivate hadElastic
 /process/inactivate neutronInelastic
-/process/inactivate nFission
+/process/inactivate nCapture
 /testhadr/run/printStat false
 /run/printProgress {max(events // 10, 1)}
 /run/beamOn {events}
@@ -85,7 +88,7 @@ def main() -> int:
     if not executable.is_file():
         raise SystemExit(f"No existe {executable}; ejecute ../../build_all.sh")
     project = Path(__file__).resolve().parents[1]
-    output_dir = project / "data" if args.tag == "final" else project / "data" / "pilots" / args.tag
+    output_dir = args.output_dir.resolve() if args.tag == "final" else args.output_dir.resolve() / "pilots" / args.tag
     output_dir.mkdir(parents=True, exist_ok=True)
     output = output_dir / "interaction_lengths.csv"
     rich_output = output_dir / "hadronic_events.csv"
@@ -93,7 +96,7 @@ def main() -> int:
     if collisions and not args.force:
         raise SystemExit(f"Ya existen {collisions}; use --force")
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    run_dir = project / "logs" / f"{args.tag}_{args.events}_{stamp}"
+    run_dir = args.logs_dir.resolve() / f"{args.tag}_{args.events}_{stamp}"
     run_dir.mkdir(parents=True, exist_ok=False)
     macro = run_dir / "run.mac"
     log = run_dir / "run.log"
@@ -108,10 +111,10 @@ def main() -> int:
         r"COURSE_HADRONIC_REFERENCE process=(\S+) macroscopic_cm-1=([0-9.eE+\-]+) microscopic_barn=([0-9.eE+\-]+)",
         completed.stdout,
     )
-    capture_matches = [item for item in matches if item[0] == "nCapture"]
-    if len(capture_matches) != 1:
+    fission_matches = [item for item in matches if item[0] == "nFission"]
+    if len(fission_matches) != 1:
         raise RuntimeError(f"No se encontro referencia hadronica en {log}")
-    reference_process, reference_macro, reference_micro = capture_matches[0]
+    reference_process, reference_macro, reference_micro = fission_matches[0]
     native = run_dir / "hadronic_native.csv"
     if not native.is_file():
         raise RuntimeError(f"No se genero {native}")
@@ -124,7 +127,7 @@ def main() -> int:
     processes = np.asarray([row["process_name"] for row in rows])
     if not np.all(interacted + escaped == 1):
         raise RuntimeError("Cada fila debe ser interaccion o escape, pero no ambas")
-    if not np.all(processes[interacted == 1] == "nCapture"):
+    if not np.all(processes[interacted == 1] == "nFission"):
         raise RuntimeError(f"Canal inesperado: {np.unique(processes[interacted == 1])}")
     if np.any(paths <= 0.0) or np.any(paths > args.length_cm*(1.0 + 1.e-8)):
         raise RuntimeError("Distancia fuera del volumen configurado")
@@ -136,6 +139,8 @@ def main() -> int:
             "energy": row["energy_eV"] + " eV", "material": row["material"],
             "interaction_occurred": row["interacted"],
             "interaction_distance_cm": row["path_length_cm"],
+            "escaped": row["escaped"],
+            "distance_inside_material_cm": row["path_length_cm"],
             "process_name": row["process_name"],
             "target_nucleus_if_available": row["isotope"],
         } for row in rows)
@@ -151,11 +156,11 @@ def main() -> int:
         "generated_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
         "executable": str(executable), "events": args.events, "length_cm": args.length_cm,
         "seed_1": seed1, "seed_2": seed2, "threads": 1,
-        "particle": "neutron", "energy_eV": 1.0, "material": "pure B10 isotope",
-        "active_process": "nCapture only; hadElastic, neutronInelastic and nFission inactivated",
+        "particle": "neutron", "energy_eV": 1.0, "material": "pure U235 isotope",
+        "active_process": "nFission only; hadElastic, neutronInelastic and nCapture inactivated",
         "physics_list": "Hadr03 PhysicsList with G4HadronPhysicsQGSP_BIC_HP",
-        "low_energy_model": "NeutronHPCapture (0--20 MeV)",
-        "cross_section_datasets_reported_by_process_dump": ["NeutronHPCaptureXS", "G4NeutronCaptureXS"],
+        "low_energy_model": "NeutronHPFission (0--20 MeV)",
+        "cross_section_datasets_reported_by_process_dump": ["NeutronHPFissionXS"],
         "reference_policy": "G4HadronicProcessStore queried in EndOfRun, after the events",
         "reference_process": reference_process,
         "reference_macroscopic_cm-1": float(reference_macro),
@@ -165,7 +170,7 @@ def main() -> int:
         "geant4_version": subprocess.run(["geant4-config", "--version"], text=True, capture_output=True).stdout.strip(),
     }
     (output_dir / "run_metadata.json").write_text(json.dumps(metadata, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"Hadr04: {len(rows)} eventos, {interacted.sum()} capturas, {escaped.sum()} escapes censurados")
+    print(f"Hadr04: {len(rows)} eventos, {interacted.sum()} fisiones, {escaped.sum()} escapes censurados")
     print(f"Datos: {output}")
     print(f"Macro, log y ntuple nativo comprimido: {run_dir}")
     return 0

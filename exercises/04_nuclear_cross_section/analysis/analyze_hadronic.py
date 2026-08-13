@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Estima lambda y sigma de captura mediante MLE con censura derecha."""
+"""Estima lambda y sigma de fisión mediante MLE con censura derecha."""
 
 from __future__ import annotations
 
@@ -67,13 +67,13 @@ def main() -> int:
     fig, ax = plt.subplots(figsize=(7.2, 4.8))
     weights = np.full(n_interacted, 1.0/len(rows))
     ax.hist(paths[interacted], bins=bins, weights=weights/(bins[1]-bins[0]),
-            histtype="step", lw=1.6, label="capturas por primario y cm")
+            histtype="step", lw=1.6, label="fisiones por primario y cm")
     x = np.linspace(0.0, max_path, 500)
     ax.plot(x, np.exp(-x/mean_free_path)/mean_free_path, label="MLE exponencial censurado")
     if n_escaped:
         ax.axvline(np.median(paths[escaped]), color="C3", ls=":", label=f"salida: {n_escaped} censurados")
-    ax.set(xlabel="distancia hasta captura o salida [cm]", ylabel="densidad por primario [1/cm]",
-           title=r"Captura $n+{}^{10}$B a 1 eV")
+    ax.set(xlabel="distancia hasta fision o salida [cm]", ylabel="densidad por primario [1/cm]",
+           title=r"Fisión $n+{}^{235}$U a 1 eV")
     ax.grid(alpha=0.25)
     ax.legend()
     fig.tight_layout()
@@ -120,7 +120,7 @@ def main() -> int:
     processes = {row["process_name"] for row in rows if int(row["interacted"])}
     checks = {
         "clasificacion_interaccion_o_escape": bool(np.all(interacted.astype(int) + escaped.astype(int) == 1)),
-        "unico_canal_nCapture": processes == {"nCapture"},
+        "unico_canal_nFission": processes == {"nFission"},
         "distancias_positivas": bool(np.all(paths > 0.0)),
         "supervivencia_exponencial_max_abs_menor_0.02": survival_max_abs < 0.02,
         "acuerdo_ProcessStore_15porciento": 0.85 < sigma_ratio < 1.15,
@@ -128,9 +128,9 @@ def main() -> int:
     lines = [
         "EXPERIMENTO 4 — SECCION EFICAZ NUCLEAR POR LONGITUD LIBRE",
         "",
-        "Reaccion elegida: captura de neutrones de 1 eV en material isotopico puro 10B; unico proceso activo: nCapture.",
-        "Fisica: Hadr03 con G4HadronPhysicsQGSP_BIC_HP; a 1 eV usa NeutronHPCapture y el conjunto NeutronHPCaptureXS (el dump tambien registra G4NeutronCaptureXS).",
-        f"N generados={len(rows)}, capturados={n_interacted}, escapados/censurados={n_escaped}",
+        "Reaccion elegida: fision de neutrones de 1 eV en material isotopico puro U-235; unico proceso activo: nFission.",
+        "Fisica: Hadr03 con G4HadronPhysicsQGSP_BIC_HP; a 1 eV usa NeutronHPFission y NeutronHPFissionXS de G4NDL.",
+        f"N generados={len(rows)}, fisiones={n_interacted}, escapados/censurados={n_escaped}",
         f"exposicion total (interacciones + censuras)={total_exposure:.9g} cm",
         f"lambda_MLE={mean_free_path:.9g} +- {lambda_sem:.3g} cm (incertidumbre estadistica asintotica)",
         f"densidad numerica n={number_density:.9g} atomos/cm3",
@@ -138,8 +138,8 @@ def main() -> int:
         f"sigma=1/(n*lambda)={microscopic_barn:.9g} +- {sigma_sem_barn:.3g} barn",
         f"particle = neutron",
         f"energy = 1 eV",
-        f"material = B10 isotopico puro",
-        f"process = nCapture",
+        f"material = U235 isotopico puro",
+        f"process = nFission",
         f"lambda_cm = {mean_free_path:.9g}",
         f"uncertainty_lambda_cm = {lambda_sem:.9g}",
         f"macroscopic_cross_section_cm-1 = {macroscopic_xs:.9g}",

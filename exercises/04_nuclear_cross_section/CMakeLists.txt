@@ -40,8 +40,11 @@ target_link_libraries(Hadr03 ${Geant4_LIBRARIES} )
 # relies on these scripts being in the current working directory.
 #
 set(Hadr03_SCRIPTS
-    debug.mac envHadronic.csh envHadronic.sh elastic.mac gamma.mac hadr03.in inelastic.mac ion.mac nCapture.mac neutron.mac nFission.mac fusion.mac vis.mac
+    macros/example_nfission.mac
+    macros/visualization.mac
   )
+
+file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/macros)
 
 foreach(_script ${Hadr03_SCRIPTS})
   configure_file(
@@ -55,4 +58,3 @@ endforeach()
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
 install(TARGETS Hadr03 DESTINATION bin)
-
