@@ -62,7 +62,12 @@ def main() -> int:
         env = os.environ.copy()
         if args.module == "ex4":
             env["G4COURSE_KEEP_SECONDARIES"] = "1"
-        completed = subprocess.run([str(executable), str(macro)], cwd=temp, env=env,
+        command = [str(executable), str(macro)]
+        # TestEm13 conserva su argumento histórico de número de threads.
+        # Un único worker garantiza una sola escena acumulada reproducible.
+        if args.module == "ex1a":
+            command.append("1")
+        completed = subprocess.run(command, cwd=temp, env=env,
                                    stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                    text=True, check=False)
         (logs_dir / f"{basename}_{args.events}events.log").write_text(

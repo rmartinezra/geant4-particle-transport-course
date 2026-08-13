@@ -37,6 +37,35 @@ def main() -> int:
             path.stat().st_size > 0 and path.read_bytes().startswith(b"#VRML V2.0 utf8")
             for path in files
         )
+        metadata_files = list((root / "generated/visualization" / module).glob("*.metadata.txt"))
+        metadata_text = "\n".join(path.read_text(encoding="utf-8") for path in metadata_files)
+        event_counts = [int(item) for item in re.findall(r"^events=(\d+)$", metadata_text, re.M)]
+        checks[f"{module}_wrl_10events"] = (
+            bool(event_counts) and min(event_counts) >= 10 and "driver=VRML2FILE" in metadata_text
+        )
+        logs = list((root / "generated/logs/visualization" / module).glob("*.log"))
+        log_text = "\n".join(path.read_text(encoding="utf-8", errors="replace") for path in logs)
+        bad_vis = ("command not found", "ERROR: G4VisCommand", "ERROR: No graphics system")
+        checks[f"{module}_vis_log"] = (
+            bool(logs) and "VRML2FILE" in log_text
+            and not any(token.lower() in log_text.lower() for token in bad_vis)
+        )
+    expected_outputs = (
+        "generated/data/ex1a/transmission_scan.csv",
+        "generated/data/ex1b/compton_events.csv",
+        "generated/data/ex2/angular_events.csv",
+        "generated/data/ex3/energy_loss_events.csv",
+        "generated/data/ex4/hadronic_events.csv",
+        "generated/figures/ex1a/transmission_vs_thickness.png",
+        "generated/figures/ex1b/compton_linearized.png",
+        "generated/figures/ex2/width_vs_thickness.png",
+        "generated/figures/ex3/dedx_vs_energy.png",
+        "generated/figures/ex4/interaction_length_distribution.png",
+    )
+    checks["datos_y_figuras"] = all(
+        (root / relative).is_file() and (root / relative).stat().st_size > 0
+        for relative in expected_outputs
+    )
     for name, passed in checks.items():
         print(f"{'PASS' if passed else 'FAIL'}: {name}")
     return 0 if all(checks.values()) else 1
