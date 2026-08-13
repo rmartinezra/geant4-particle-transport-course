@@ -1,0 +1,17 @@
+.git
+.github
+**/build
+generated
+**/__pycache__
+**/*.pyc
+**/*.wrl
+**/*.csv
+**/*.root
+**/*.hdf5
+**/*.npy
+**/*.npz
+**/*.log
+*.tar
+*.tar.gz
+release
+

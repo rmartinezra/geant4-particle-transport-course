@@ -1,0 +1,17 @@
+# Ejemplo manual. Los barridos reproducibles usan scripts/run_mcs.py.
+/control/verbose 1
+/run/verbose 1
+/random/setSeeds 2026081202 2026081203
+/testem/det/setAbsMat G4_Fe
+/testem/det/setAbsThick 50 cm
+/testem/det/setAbsYZ 10 m
+/testem/det/setWorldX 50.2 cm
+/testem/det/setWorldYZ 10 m
+/testem/phys/addPhysics emstandard_opt0
+/run/setCut 1 mm
+/run/initialize
+/testem/gun/setDefault
+/gun/particle mu+
+/gun/energy 100 GeV
+/testem/stack/killSecondaries
+/run/beamOn 1000

@@ -1,0 +1,13 @@
+# Ejemplo manual. Para deposito local se rastrean secundarios.
+/control/verbose 1
+/run/verbose 1
+/random/setSeeds 2026081203 2026081204
+/testem/det/setMat G4_WATER
+/testem/det/setSize 10 cm
+/testem/phys/addPhysics standard
+/run/setCut 1 mm
+/run/initialize
+/gun/particle mu+
+/gun/energy 3 GeV
+/testem/trackSecondaries true
+/run/beamOn 1000

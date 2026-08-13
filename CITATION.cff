@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "Si usa este curso, cite este repositorio y Geant4 11.2.2."
+title: "Curso reproducible de transporte de partículas con Geant4"
+type: software
+version: 1.0.0
+date-released: 2026-08-13
+authors:
+  - family-names: "Martínez"
+    given-names: "Rafael"
+license: Geant4
+keywords:
+  - Geant4
+  - transporte de partículas
+  - física Monte Carlo
+

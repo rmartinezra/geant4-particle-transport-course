@@ -1,0 +1,15 @@
+# Experimento 1A: ejemplo directo con 1 cm y 100000 fotones.
+/control/verbose 1
+/run/verbose 1
+/testem/det/setMat G4_Al
+/testem/det/setSize 1 cm
+/run/initialize
+/process/inactivate phot
+/process/inactivate conv
+/process/inactivate GammaToMuPair
+/particle/select gamma
+/particle/process/dump
+/gun/particle gamma
+/gun/energy 300 keV
+/random/setSeeds 13579 24680
+/run/beamOn 100000

@@ -1,0 +1,49 @@
+# Compilación
+**/build/
+**/CMakeFiles/
+**/CMakeCache.txt
+**/cmake_install.cmake
+**/Makefile
+!Makefile
+*.o
+*.so
+*.a
+*.out
+
+# Resultados Monte Carlo y análisis generados
+**/generated/
+**/data/*.csv
+**/data/*.root
+**/data/*.hdf5
+**/data/*.npy
+**/data/*.npz
+**/*.wrl
+**/logs/
+*.log
+
+# Python y editores
+**/__pycache__/
+*.pyc
+.DS_Store
+.vscode/
+.idea/
+
+# Paquetes, datasets y temporales
+*.tar
+*.tar.gz
+*.tgz
+G4NDL*/
+G4EMLOW*/
+PhotonEvaporation*/
+RadioactiveDecay*/
+G4PARTICLEXS*/
+G4PII*/
+RealSurface*/
+G4SAIDDATA*/
+G4ABLA*/
+G4INCL*/
+G4ENSDFSTATE*/
+G4CHANNELING*/
+G4TENDL*/
+*.tmp
+

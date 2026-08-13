@@ -1,0 +1,14 @@
+# Prueba rapida de la salida evento a evento.
+/control/verbose 1
+/run/verbose 1
+/testem/det/setMat G4_Al
+/testem/phys/addPhysics standard
+/run/initialize
+/run/setCut 1 nm
+/process/inactivate phot
+/process/inactivate conv
+/process/inactivate GammaToMuPair
+/gun/particle gamma
+/gun/energy 300 keV
+/random/setSeeds 12345 67890
+/run/beamOn 1000
