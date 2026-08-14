@@ -134,5 +134,12 @@ RUN cmake -S /tmp/course-smoke/exercises/01_compton/A_cross_section \
     && grep -q 'VRML2FILE' vrml.log \
     && rm -rf /tmp/course-smoke /tmp/vrml-test
 
+LABEL org.opencontainers.image.title="Curso de transporte de partículas con Geant4" \
+      org.opencontainers.image.description="Cinco módulos docentes reproducibles con Geant4 11.2.2, análisis Python y visualización VRML2FILE" \
+      org.opencontainers.image.source="https://github.com/rmartinezra/geant4-particle-transport-course" \
+      org.opencontainers.image.url="https://hub.docker.com/r/rmartinezmaple/geant4-particle-transport-course" \
+      org.opencontainers.image.version="11.2.2" \
+      org.opencontainers.image.licenses="Geant4"
+
 WORKDIR /workspace
 CMD ["make", "help"]

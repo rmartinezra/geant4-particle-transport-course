@@ -1,10 +1,7 @@
 services:
   geant4-course:
-    build:
-      context: .
-      args:
-        BUILD_JOBS: ${BUILD_JOBS:-2}
-    image: geant4-particle-transport-course:11.2.2
+    image: ${GEANT4_IMAGE:-rmartinezmaple/geant4-particle-transport-course:11.2.2}
+    pull_policy: missing
     working_dir: /workspace
     user: "${UID:-1000}:${GID:-1000}"
     environment:
