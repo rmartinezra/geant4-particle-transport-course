@@ -42,6 +42,30 @@ generated/
 
 Todo queda guardado en tu computador aunque elimines el contenedor.
 
+## Material visual de las simulaciones
+
+Las siguientes capturas proceden de archivos WRL reales generados por Geant4 con `VRML2FILE`. Cada escena acumula diez eventos y contiene tanto la geometría como las trayectorias; no son dibujos esquemáticos.
+
+### Experimento 1 · Fotones y efecto Compton
+
+| Transmisión gamma en aluminio | Cinemática Compton |
+|:---:|:---:|
+| ![Fotones transmitidos y dispersados en el blanco de aluminio](examples/visualization/compton_transmission.png) | ![Fotones y electrones de eventos de dispersión Compton](examples/visualization/compton_kinematics.png) |
+| Se distinguen fotones que atraviesan el blanco y otros que cambian de dirección. | Las trayectorias permiten relacionar ángulo, fotón dispersado y electrón de retroceso. |
+
+### Experimentos 2 y 3 · Transporte de muones
+
+| Dispersión múltiple en hierro | Pérdida de energía en agua |
+|:---:|:---:|
+| ![Muones y secundarios dentro de un bloque de hierro](examples/visualization/muon_mcs.png) | ![Muones y secundarios atravesando un volumen de agua](examples/visualization/muon_water.png) |
+| El haz se ensancha y las trayectorias se desvían al cruzar el hierro. | Se observa el paso por el agua y la producción de partículas secundarias. |
+
+### Experimento 4 · Fisión de U-235
+
+![Neutrones y secundarios de fisión producidos en el blanco de U-235](examples/visualization/neutron_fission.png)
+
+La multiplicidad y la variedad de trayectorias hacen visible el carácter hadrónico del evento. Esta configuración de visualización favorece observar fisiones con pocos eventos, sin modificar la física mediante biasing.
+
 ## Qué aprenderás
 
 El curso contiene cuatro experimentos organizados en cinco módulos:
@@ -77,22 +101,29 @@ Estos valores provienen de las corridas FULL validadas. Una corrida nueva debe s
 | Pérdida en agua | `dE/dx = 2.29342 ± 0.0058 MeV/cm` |
 | Fisión U-235 | `sigma_fission = 69.493 ± 0.243 barn/átomo` |
 
-### Galería de resultados FULL
+### Fits y resultados FULL
+
+Estas gráficas se produjeron con los scripts de análisis incluidos. Los puntos y distribuciones son Monte Carlo; las curvas de referencia se evalúan después de obtener el observable principal.
 
 | Transmisión Compton | Masa del electrón desde la cinemática |
 |:---:|:---:|
 | ![Transmisión gamma frente al espesor de aluminio](examples/expected_results/transmission_vs_thickness.png) | ![Ajuste linealizado de la relación de Compton](examples/expected_results/compton_linearized.png) |
 | Los puntos son eventos Monte Carlo agregados; la curva es el ajuste principal. | La pendiente se ajusta y determina `m_e c²`; la dispersión incluye física atómica. |
 
-| Dispersión múltiple en hierro | Poder de frenado en agua |
+| Escala MCS con el espesor | Escala MCS con el momento |
 |:---:|:---:|
-| ![Anchura angular de muones frente al espesor de hierro](examples/expected_results/width_vs_thickness.png) | ![Poder de frenado de muones en agua con barras SEM](examples/expected_results/dedx_vs_energy.png) |
-| El exponente del espesor queda libre; Highland aparece solo como comparación posterior. | Las barras son SEM y dejan visible la gran varianza radiativa a alta energía. |
+| ![Anchura angular de muones frente al espesor de hierro](examples/expected_results/width_vs_thickness.png) | ![Anchura angular de muones frente al momento](examples/expected_results/width_vs_momentum.png) |
+| El ajuste libre recupera aproximadamente `sigma ∝ x^0.5`. | El segundo barrido recupera aproximadamente `sigma ∝ p^-1`. |
 
-| Fisión con censura derecha | Trayectorias reales de una visualización de fisión |
+| Distribución de pérdida de energía | Poder de frenado en agua |
 |:---:|:---:|
-| ![Supervivencia del neutrón y ajuste exponencial censurado](examples/expected_results/survival_probability.png) | ![Trayectorias de neutrones y secundarios de fisión en U-235](examples/visualization/neutron_fission.png) |
-| Los neutrones que escapan aportan exposición y no se eliminan del estimador. | El PNG procede de un WRL generado por Geant4 con geometría y trayectorias. |
+| ![Distribución con colas de la pérdida de energía de muones](examples/expected_results/energy_loss_distribution.png) | ![Poder de frenado de muones en agua con barras SEM](examples/expected_results/dedx_vs_energy.png) |
+| Media, mediana, cuantiles y cola radiativa se mantienen visibles. | Las barras son SEM y muestran la gran varianza a alta energía. |
+
+| Distancia hasta la primera fisión | Supervivencia con censura derecha |
+|:---:|:---:|
+| ![Distribución de distancias de interacción para fisión de U-235](examples/expected_results/interaction_length_distribution.png) | ![Supervivencia del neutrón y ajuste exponencial censurado](examples/expected_results/survival_probability.png) |
+| La distribución de longitudes permite estimar `lambda`. | Los neutrones que escapan aportan exposición y no se eliminan del estimador. |
 
 Hay más figuras y valores explicados en [resultados esperados](docs/expected_results.md).
 
