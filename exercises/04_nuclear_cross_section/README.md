@@ -1,4 +1,6 @@
-# Experimento 4 — Sección eficaz de fisión en U-235
+# Proyecto C del curso — Sección eficaz de fisión en U-235
+
+**Pregunta del proyecto:** ¿cómo estimar una longitud de interacción sin eliminar los neutrones que escapan?
 
 ## OBJETIVO
 
@@ -26,7 +28,7 @@ La geometría visual usa 2 cm para observar fisiones y productos secundarios en 
 
 ## RESULTADOS ESPERADOS
 
-`lambda≈0.30 cm` y `sigma_f≈68 barn` a 1 eV, con variación estadística.
+La estimación debe ser positiva y conservar la contribución de los eventos censurados. Los valores FULL se reservan en [resultados de referencia — contiene spoilers](../../docs/expected_results.md).
 
 ## PREGUNTAS
 

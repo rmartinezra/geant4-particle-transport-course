@@ -1,4 +1,6 @@
-# Experimento 3 — Pérdida de energía
+# Proyecto B del curso — Pérdida de energía
+
+**Pregunta del proyecto:** ¿cómo se reparten la pérdida del primario, el depósito local y la energía de los secundarios?
 
 ## OBJETIVO
 
@@ -18,7 +20,7 @@ La pérdida media frente al espesor delgado. `dedx_vs_energy.png` muestra barras
 
 ## QUÉ OBTENER
 
-Para 3 GeV, aproximadamente `2.3 MeV/cm`. `G4EmCalculator` es solo una comparación posterior.
+El poder de frenado inferido a partir de los eventos. `G4EmCalculator` es solo una comparación posterior.
 
 ## VISUALIZACIÓN
 
@@ -27,6 +29,8 @@ El WRL muestra agua, muones atravesando el volumen y secundarios/deposición aso
 ## RESULTADOS ESPERADOS
 
 Las distribuciones tienen colas radiativas; aun con muchos eventos pueden converger lentamente. Esa gran varianza es física y no se oculta.
+
+Los valores FULL se reservan en [resultados de referencia — contiene spoilers](../../docs/expected_results.md).
 
 ## PREGUNTAS
 

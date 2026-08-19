@@ -1,4 +1,6 @@
-# Experimento 2 — Multiple Coulomb Scattering
+# Proyecto A del curso — Multiple Coulomb Scattering
+
+**Pregunta del proyecto:** ¿cómo escalan la anchura angular y las colas al variar el espesor y el momento?
 
 ## OBJETIVO
 
@@ -18,7 +20,7 @@ Muones positivos atravesando hierro para varios espesores y momentos.
 
 ## QUÉ OBTENER
 
-`alpha≈0.5` y `beta≈1`. El C++ no calcula Highland; la fórmula aparece solo después en el análisis como comparación sin ajustar.
+Los exponentes de escala con espesor y momento. El C++ no calcula Highland; la fórmula aparece solo después en el análisis como comparación sin ajustar.
 
 ## VISUALIZACIÓN
 
@@ -26,7 +28,7 @@ El WRL muestra el bloque de Fe, muones incidentes, desviaciones de trayectorias 
 
 ## RESULTADOS ESPERADOS
 
-FULL: `alpha≈0.51`, `beta≈1.04`; las colas no gaussianas permanecen visibles.
+Las colas no gaussianas deben permanecer visibles. Los valores FULL se reservan en [resultados de referencia — contiene spoilers](../../docs/expected_results.md).
 
 ## PREGUNTAS
 
