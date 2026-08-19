@@ -29,17 +29,37 @@ else
   EVENTS_EX4 := 10000
 endif
 
-.PHONY: help build test all clean clean-generated check-repo \
+.PHONY: help env-check class01-help build test all clean clean-generated check-repo \
  run-ex1a analyze-ex1a visualize-ex1a run-ex1b analyze-ex1b visualize-ex1b \
  run-ex2 analyze-ex2 visualize-ex2 run-ex3 analyze-ex3 visualize-ex3 \
  run-ex4 analyze-ex4 visualize-ex4 visualize-all
 
 help:
 	@echo "Curso Geant4 11.2.2"
+	@echo "  make env-check    # preparación técnica de Clase 1; no ejecuta resultados"
+	@echo "  make class01-help # ruta breve de trabajo para Clase 1"
 	@echo "  make build | test | all | check-repo"
 	@echo "  make run-ex1a ... run-ex4 [FAST=1|FULL=1] [VIS=0] [SEED=N]"
 	@echo "  make analyze-ex1a ... analyze-ex4"
 	@echo "  make visualize-ex1a ... visualize-ex4 [VIS_EVENTS>=10] [VIS_SEED=N]"
+
+env-check:
+	@BUILD_JOBS=$(JOBS) ./scripts/env_check.sh
+
+class01-help:
+	@echo "Antes de la clase:"
+	@echo "  make env-check"
+	@echo
+	@echo "Práctica guiada 1A:"
+	@echo "  make run-ex1a FAST=1"
+	@echo
+	@echo "Práctica guiada 1B:"
+	@echo "  make run-ex1b FAST=1"
+	@echo
+	@echo "Salidas:"
+	@echo "  generated/data/"
+	@echo "  generated/logs/"
+	@echo "  generated/visualization/"
 
 build:
 	@BUILD_JOBS=$(JOBS) ./scripts/build_all.sh
