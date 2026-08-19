@@ -1,0 +1,7 @@
+services:
+  geant4-course:
+    build:
+      context: .
+      args:
+        BUILD_JOBS: ${BUILD_JOBS:-2}
+    pull_policy: build
