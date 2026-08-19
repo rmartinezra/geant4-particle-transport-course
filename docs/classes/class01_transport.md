@@ -52,11 +52,11 @@ Los tiempos son una guía. Conviene preservar el orden conceptual incluso si una
 
 La sección eficaz microscópica de un proceso depende, en general, de la energía:
 
-\[
-\sigma(E).
-\]
+$$
+\sigma(E)
+$$
 
-Sus unidades son de área: `cm²` o barn, con `1 barn = 10⁻²⁴ cm²`. No es una probabilidad adimensional. Es una medida efectiva de la capacidad de **un centro dispersor** para producir una interacción.
+Sus unidades son de área: $\mathrm{cm}^2$ o barn, con $1\ \mathrm{barn}=10^{-24}\ \mathrm{cm}^2$. No es una probabilidad adimensional. Es una medida efectiva de la capacidad de **un centro dispersor** para producir una interacción.
 
 Una sección eficaz mayor significa una interacción más probable al atravesar una misma población de centros, pero todavía necesitamos saber cuántos centros hay por unidad de volumen.
 
@@ -64,76 +64,77 @@ Una sección eficaz mayor significa una interacción más probable al atravesar 
 
 La densidad numérica
 
-\[
+$$
 n
-\]
+$$
 
-se mide en `átomos/cm³`. Describe cuántos centros dispersores ofrece el material por unidad de volumen. No debe confundirse con la densidad de masa en `g/cm³`.
+se mide en $\text{átomos}/\mathrm{cm}^3$. Describe cuántos centros dispersores ofrece el material por unidad de volumen. No debe confundirse con la densidad de masa en $\mathrm{g}/\mathrm{cm}^3$.
 
 ## 3. Sección eficaz macroscópica
 
 Para un material homogéneo y un proceso dado:
 
-\[
-\Sigma(E)=n\,\sigma(E).
-\]
+$$
+\Sigma(E)=n\,\sigma(E)
+$$
 
-`Σ` tiene unidades de `cm⁻¹`. Puede interpretarse como una tasa de interacción por unidad de longitud. Esta es la cantidad que conecta directamente la física microscópica con el transporte dentro de un volumen.
+$\Sigma$ tiene unidades de $\mathrm{cm}^{-1}$. Puede interpretarse como una tasa de interacción por unidad de longitud. Esta es la cantidad que conecta directamente la física microscópica con el transporte dentro de un volumen.
 
 ## 4. Camino libre medio
 
 El camino libre medio es
 
-\[
-\lambda=\frac{1}{\Sigma}.
-\]
+$$
+\lambda=\frac{1}{\Sigma}
+$$
 
-Sus unidades son `cm`. `λ` grande corresponde a interacciones poco frecuentes y trayectorias típicamente largas. `λ` pequeña corresponde a interacciones frecuentes y distancias típicamente cortas.
+Sus unidades son $\mathrm{cm}$. $\lambda$ grande corresponde a interacciones poco frecuentes y trayectorias típicamente largas. $\lambda$ pequeña corresponde a interacciones frecuentes y distancias típicamente cortas.
 
-No significa que todas las partículas recorran exactamente `λ`. Es el promedio de una distribución de distancias.
+No significa que todas las partículas recorran exactamente $\lambda$. Es el promedio de una distribución de distancias.
 
 ## 5. Supervivencia y primera interacción
 
-La probabilidad de que una partícula recorra más de una distancia `x` sin interactuar es
+La probabilidad de que una partícula recorra más de una distancia $x$ sin interactuar es
 
-\[
-P(X>x)=\exp(-\Sigma x)=\exp(-x/\lambda).
-\]
+$$
+P(X>x)=\exp(-\Sigma x)=\exp(-x/\lambda)
+$$
 
 La densidad de probabilidad de la distancia hasta la primera interacción es
 
-\[
-p(x)=\frac{1}{\lambda}\exp(-x/\lambda),\qquad x\ge 0.
-\]
+$$
+p(x)=\frac{1}{\lambda}\exp(-x/\lambda),\qquad x\ge 0
+$$
 
 La exponencial no afirma que la partícula pierda una fracción continua de sí misma. Describe una colección de historias: algunas interactúan pronto, otras tarde y otras salen del volumen sin interactuar.
 
 ## 6. De una sección eficaz a un número aleatorio
 
-Si `ξ` es uniforme entre cero y uno,
+Si $\xi$ es uniforme entre cero y uno,
 
-\[
-\xi\sim U(0,1),
-\]
+$$
+\xi\sim U(0,1)
+$$
 
 entonces podemos muestrear una distancia exponencial mediante
 
-\[
-x=-\lambda\ln(\xi).
-\]
+$$
+x=-\lambda\ln(\xi)
+$$
 
-Ejemplo: si `λ = 3 cm` y `ξ = 0.5`,
+Ejemplo: si $\lambda=3\ \mathrm{cm}$ y $\xi=0.5$,
 
-\[
-x=-3\ln(0.5)\approx 2.08\ \text{cm}.
-\]
+$$
+x=-3\ln(0.5)\approx 2.08\ \mathrm{cm}
+$$
 
 La cadena conceptual central es:
 
-```text
-sigma(E) → Sigma(E) → lambda(E) → número aleatorio
-         → distancia hasta la interacción
-```
+$$
+\sigma(E)\rightarrow\Sigma(E)\rightarrow\lambda(E)
+\rightarrow\text{número aleatorio}
+\rightarrow\text{distancia hasta la interacción}
+$$
 
 Geant4 transforma así una propiedad microscópica en una trayectoria aleatoria. No hace falta una derivación más larga para usar esta idea correctamente.
 
@@ -141,15 +142,15 @@ Geant4 transforma así una propiedad microscópica en una trayectoria aleatoria.
 
 Una partícula puede tener varios procesos disponibles. Sus secciones eficaces macroscópicas contribuyen a
 
-\[
-\Sigma_{\mathrm{total}}=\Sigma_1+\Sigma_2+\cdots.
-\]
+$$
+\Sigma_{\mathrm{total}}=\Sigma_1+\Sigma_2+\cdots
+$$
 
-Una vez determinada la próxima interacción, la probabilidad relativa de seleccionar el proceso `i` es
+Una vez determinada la próxima interacción, la probabilidad relativa de seleccionar el proceso $i$ es
 
-\[
-P_i=\frac{\Sigma_i}{\Sigma_{\mathrm{total}}}.
-\]
+$$
+P_i=\frac{\Sigma_i}{\Sigma_{\mathrm{total}}}
+$$
 
 El transporte debe resolver dos preguntas distintas:
 
@@ -168,9 +169,9 @@ Responde principalmente: **¿con qué frecuencia ocurre una interacción?** Dete
 
 Responde: **una vez que ocurre, ¿cómo se distribuyen los estados finales?** Un ejemplo es
 
-\[
-\frac{d\sigma}{d\Omega},
-\]
+$$
+\frac{d\sigma}{d\Omega}
+$$
 
 que distribuye direcciones dentro del ángulo sólido.
 
@@ -187,7 +188,7 @@ Esta separación prepara las dos prácticas:
 
 Sin ejecutar todavía el programa, discute:
 
-- ¿Qué cambia en `λ` si aumenta `σ` y el material es el mismo?
+- ¿Qué cambia en $\lambda$ si aumenta $\sigma$ y el material es el mismo?
 - ¿Dos partículas con la misma energía deben recorrer la misma distancia?
 - Si compiten dos procesos, ¿seleccionar el proceso y seleccionar la distancia son la misma decisión?
 
@@ -243,7 +244,7 @@ Aquí medimos supervivencia **hasta la primera interacción**. El código regist
 - `Transportation`: el primario alcanzó el límite sin interacción Compton y cuenta en `N_transmitted`;
 - `compt`: ocurrió la primera interacción dentro del aluminio y cuenta en `N_interacted`.
 
-Por tanto, un fotón que interactuara y saliera más tarde no pertenece a `N_transmitted` en esta definición. Sería un observable distinto. Esta elección es coherente con `P(X>x)` y con la distribución de la primera interacción.
+Por tanto, un fotón que interactuara y saliera más tarde no pertenece a `N_transmitted` en esta definición. Sería un observable distinto. Esta elección es coherente con $P(X>x)$ y con la distribución de la primera interacción.
 
 ## 3. Inspeccionar el CSV
 
@@ -256,28 +257,28 @@ Concéntrate primero en cuatro columnas:
 
 | Columna real | Símbolo de trabajo | Significado |
 |---|---|---|
-| `thickness_cm` | `x` | espesor de aluminio |
-| `N0` | `N₀` | fotones incidentes |
-| `N_transmitted` | `N_trans` | fotones que salen sin interacción |
-| `transmission` | `T` | fracción `N_trans/N₀` |
+| `thickness_cm` | $x$ | espesor de aluminio |
+| `N0` | $N_0$ | fotones incidentes |
+| `N_transmitted` | $N_{\mathrm{trans}}$ | fotones que salen sin interacción |
+| `transmission` | $T$ | fracción $N_{\mathrm{trans}}/N_0$ |
 
 Las demás columnas conservan incertidumbre, material, energía, seeds y referencias para la reproducibilidad. No necesitas analizarlas todas hoy.
 
 ## 4. Hacer un cálculo manual
 
-Elige una fila con `0<T<1` y anota sus valores. Calcula:
+Elige una fila con $0<T<1$ y anota sus valores. Calcula:
 
-\[
-T=\frac{N_{\mathrm{trans}}}{N_0},
-\]
+$$
+T=\frac{N_{\mathrm{trans}}}{N_0}
+$$
 
-\[
-\mu_{\mathrm{est}}\approx-\frac{\ln T}{x},
-\]
+$$
+\mu_{\mathrm{est}}\approx-\frac{\ln T}{x}
+$$
 
-\[
-\lambda_{\mathrm{est}}\approx\frac{1}{\mu_{\mathrm{est}}}.
-\]
+$$
+\lambda_{\mathrm{est}}\approx\frac{1}{\mu_{\mathrm{est}}}
+$$
 
 Comprueba unidades en cada paso. Un solo punto produce una estimación con ruido; distintos puntos no darán exactamente el mismo valor. En Clase 2 combinaremos todos los espesores mediante un modelo estadístico.
 
@@ -319,16 +320,18 @@ Identifica el fotón incidente, el punto de interacción, el fotón dispersado, 
 
 Para un electrón libre inicialmente en reposo, conservación de energía y momento conduce a
 
-\[
-E'=\frac{E_0}{1+\dfrac{E_0}{m_e c^2}(1-\cos\theta)}.
-\]
+$$
+E'=
+\frac{E_0}
+{1+\dfrac{E_0}{m_e c^2}(1-\cos\theta)}
+$$
 
 Aquí:
 
-- `E₀` es la energía inicial del fotón;
-- `E'` es la energía del fotón dispersado;
-- `θ` es el ángulo de scattering;
-- `m_e c²` es la energía de reposo del electrón.
+- $E_0$ es la energía inicial del fotón;
+- $E'$ es la energía del fotón dispersado;
+- $\theta$ es el ángulo de scattering;
+- $m_e c^2$ es la energía de reposo del electrón.
 
 No necesitamos derivar QED. La ecuación ideal es una consecuencia cinemática para ese estado inicial; la sección eficaz diferencial determina con qué frecuencia aparecen los distintos ángulos.
 
@@ -343,45 +346,47 @@ Para uno o pocos eventos localiza:
 
 | Columna | Significado |
 |---|---|
-| `E0_keV` | energía inicial `E₀` |
-| `Egamma_scattered_keV` | energía Monte Carlo `E'` |
+| `E0_keV` | energía inicial $E_0$ |
+| `Egamma_scattered_keV` | energía Monte Carlo $E'$ |
 | `theta_deg` o `cos_theta` | ángulo de scattering |
 | `electron_kinetic_energy_keV` | energía cinética del electrón |
 
 Escoge un evento y:
 
-1. anota `E₀` y `θ`;
-2. calcula `E'` ideal;
-3. compara con `E'` Monte Carlo;
+1. anota $E_0$ y $\theta$;
+2. calcula $E'$ ideal;
+3. compara con $E'$ Monte Carlo;
 4. describe el signo y tamaño de la diferencia sin convertir un caso en una conclusión estadística.
 
 No exijas coincidencia exacta. El modelo Compton de Geant4 puede incluir electrones ligados y ensanchamiento Doppler. Una resolución instrumental artificial sería un efecto adicional y no se introduce en esta clase.
 
 ## 4. Detenerse antes del fit
 
-No ejecutes todavía `make analyze-ex1b` como actividad principal. La linealización, el fit de `m_e c²`, sus residuos y la interpretación de la incertidumbre pertenecen a Clase 2.
+No ejecutes todavía `make analyze-ex1b` como actividad principal. La linealización, el fit de $m_e c^2$, sus residuos y la interpretación de la incertidumbre pertenecen a Clase 2.
 
 # Bloque D — Cierre conceptual
 
 ## La historia completa de un evento
 
-```text
-PARTÍCULA
-    ↓
-sigma(E)
-    ↓
-lambda(E)
-    ↓
-número aleatorio
-    ↓
-punto de interacción
-    ↓
-proceso
-    ↓
-estado final
-    ↓
-nuevas energías, direcciones y tracks
-```
+$$
+\begin{gathered}
+\text{PARTÍCULA}\\
+\downarrow\\
+\sigma(E)\\
+\downarrow\\
+\lambda(E)\\
+\downarrow\\
+\text{número aleatorio}\\
+\downarrow\\
+\text{punto de interacción}\\
+\downarrow\\
+\text{proceso}\\
+\downarrow\\
+\text{estado final}\\
+\downarrow\\
+\text{nuevas energías, direcciones y tracks}
+\end{gathered}
+$$
 
 Compton 1A y 1B son complementarios:
 
@@ -408,7 +413,7 @@ Entrega únicamente:
 
 1. la [hoja de trabajo](../../worksheets/class01.md) completa;
 2. una captura de un WRL de 1A o 1B;
-3. el cálculo manual de `T`, `mu` y `lambda` para un punto;
+3. el cálculo manual de $T$, $\mu$ y $\lambda$ para un punto;
 4. la comparación de un evento Compton con la cinemática ideal;
 5. una respuesta corta: ¿cuál es la diferencia física entre 1A y 1B?
 
@@ -418,7 +423,7 @@ No se solicita un informe largo.
 
 Al finalizar debes poder responder, con tus propias palabras:
 
-1. ¿Qué son `σ`, `Σ` y `λ` y qué unidades tienen?
+1. ¿Qué son $\sigma$, $\Sigma$ y $\lambda$ y qué unidades tienen?
 2. ¿Por qué la distancia hasta la interacción es aleatoria?
 3. ¿Cómo se muestrea una exponencial a partir de un uniforme?
 4. ¿Qué diferencia existe entre sección eficaz total y diferencial?

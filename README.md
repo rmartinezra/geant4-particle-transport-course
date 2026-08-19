@@ -105,11 +105,11 @@ Los siguientes órdenes de magnitud sirven únicamente para orientar unidades y 
 
 | Actividad | Magnitud orientativa |
 |---|---:|
-| Compton 1A | sección eficaz de aproximadamente `4.5 barn/átomo` |
-| Compton 1B | energía de reposo del electrón de aproximadamente `511 keV` |
-| Proyecto A | exponentes de espesor y momento de aproximadamente `0.5` y `1` |
-| Proyecto B | pérdida específica de aproximadamente `2.3 MeV/cm` |
-| Proyecto C | sección eficaz de aproximadamente `70 barn/átomo` |
+| Compton 1A | sección eficaz de aproximadamente $4.5\ \text{barn/átomo}$ |
+| Compton 1B | energía de reposo del electrón de aproximadamente $511\ \mathrm{keV}$ |
+| Proyecto A | exponentes de espesor y momento de aproximadamente $0.5$ y $1$ |
+| Proyecto B | pérdida específica de aproximadamente $2.3\ \mathrm{MeV}/\mathrm{cm}$ |
+| Proyecto C | sección eficaz de aproximadamente $70\ \text{barn/átomo}$ |
 
 [Resultados FULL de referencia — contiene spoilers](docs/expected_results.md). Las cifras precisas y la galería completa de fits están deliberadamente fuera de esta página.
 

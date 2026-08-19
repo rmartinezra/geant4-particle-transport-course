@@ -4,7 +4,7 @@
 
 ## OBJETIVO
 
-Medir `dE/dx` de muones en agua y separar balances energéticos.
+Medir $dE/dx$ de muones en agua y separar balances energéticos.
 
 ## QUÉ SIMULAR
 
@@ -12,7 +12,7 @@ Muones positivos en agua para varios espesores y energías.
 
 ## QUÉ MEDIR
 
-Pérdida del primario, depósito local, energía transferida a secundarios, `N`, media, desviación, SEM, mediana y q16/q84.
+Pérdida del primario, depósito local, energía transferida a secundarios, $N$, media, desviación, SEM, mediana y $q_{16}/q_{84}$.
 
 ## QUÉ AJUSTAR
 

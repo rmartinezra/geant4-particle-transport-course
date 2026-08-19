@@ -8,7 +8,7 @@ Reconstruir la sección eficaz `nFission` a partir de la primera distancia de fi
 
 ## QUÉ SIMULAR
 
-Neutrones de 1 eV en U-235 isotópico puro con `G4HadronPhysicsQGSP_BIC_HP`, `NeutronHPFission` y `NeutronHPFissionXS`.
+Neutrones de $1\ \mathrm{eV}$ en U-235 isotópico puro con `G4HadronPhysicsQGSP_BIC_HP`, `NeutronHPFission` y `NeutronHPFissionXS`.
 
 ## QUÉ MEDIR
 
@@ -16,15 +16,15 @@ ID, energía, interacción, distancia, escape, exposición dentro del material y
 
 ## QUÉ AJUSTAR
 
-Likelihood exponencial censurada: `lambda_hat=exposición_total/N_fisiones`.
+Likelihood exponencial censurada: $\widehat{\lambda}=\mathrm{exposición}_{\mathrm{total}}/N_{\mathrm{fisiones}}$.
 
 ## QUÉ OBTENER
 
-`Sigma=1/lambda` y `sigma_f=Sigma/n`. `G4HadronicProcessStore` se consulta solo después para exactamente `nFission`.
+$\Sigma=1/\lambda$ y $\sigma_f=\Sigma/n$. `G4HadronicProcessStore` se consulta solo después para exactamente `nFission`.
 
 ## VISUALIZACIÓN
 
-La geometría visual usa 2 cm para observar fisiones y productos secundarios en 10 eventos; producción usa 0.5 cm para conservar una fracción útil de escapes censurados. No hay biasing.
+La geometría visual usa $2\ \mathrm{cm}$ para observar fisiones y productos secundarios en 10 eventos; producción usa $0.5\ \mathrm{cm}$ para conservar una fracción útil de escapes censurados. No hay biasing.
 
 ## RESULTADOS ESPERADOS
 

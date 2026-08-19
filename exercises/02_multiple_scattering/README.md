@@ -12,11 +12,11 @@ Muones positivos atravesando hierro para varios espesores y momentos.
 
 ## QUÉ MEDIR
 
-`theta_x`, `theta_y`, `theta_total`, media, desviación estándar, RMS y q16/q50/q84.
+$\theta_x$, $\theta_y$, $\theta_{\mathrm{total}}$, media, desviación estándar, RMS y $q_{16}/q_{50}/q_{84}$.
 
 ## QUÉ AJUSTAR
 
-`sigma_core=A*x^alpha` y `sigma_core=B*p^-beta`, con `alpha` y `beta` libres. `sigma_core=(q84-q16)/2`.
+$\sigma_{\mathrm{core}}=A x^\alpha$ y $\sigma_{\mathrm{core}}=B p^{-\beta}$, con $\alpha$ y $\beta$ libres. $\sigma_{\mathrm{core}}=(q_{84}-q_{16})/2$.
 
 ## QUÉ OBTENER
 
