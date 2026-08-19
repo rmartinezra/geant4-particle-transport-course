@@ -2,13 +2,47 @@
 
 [![Geant4](https://img.shields.io/badge/Geant4-11.2.2-2f6f9f)](https://geant4.web.cern.ch/)
 [![Docker](https://img.shields.io/badge/Docker-imagen%20pública-2496ed?logo=docker&logoColor=white)](https://hub.docker.com/r/rmartinezmaple/geant4-particle-transport-course)
-[![Idioma](https://img.shields.io/badge/idioma-español-f4b942)](#qué-aprenderás)
+[![Idioma](https://img.shields.io/badge/idioma-español-f4b942)](#organización)
 
-Un curso práctico para **medir magnitudes físicas a partir de eventos Monte Carlo**, ajustar los resultados y compararlos después con modelos analíticos o referencias internas de Geant4.
+Este curso estudia cómo una propiedad microscópica termina convertida en un evento Monte Carlo y, después, en una magnitud física. Las prácticas guiadas enseñan el método; los proyectos piden reutilizarlo con menos apoyo.
 
-No necesitas instalar Geant4, CMake ni Python. La imagen Docker ya contiene **Geant4 11.2.2**, compiladores, datasets, NumPy, SciPy y Matplotlib.
+```text
+pregunta física → predicción → visualización → simulación → datos
+       → observable → modelo o fit → parámetro físico → comparación → interpretación
+```
 
-## Empieza en cinco minutos
+No necesitas instalar Geant4, CMake ni Python. La imagen Docker contiene **Geant4 11.2.2**, compiladores, datasets, NumPy, SciPy y Matplotlib.
+
+## Organización
+
+El curso actual consta de **dos clases, dos prácticas guiadas y tres proyectos de aplicación**.
+
+### Clase 1 — De la sección eficaz al evento Monte Carlo
+
+La [guía completa de la Clase 1](docs/classes/class01_transport.md) explica cómo Geant4 convierte secciones eficaces en distancias de interacción y estados finales.
+
+Prácticas guiadas:
+
+- **Compton 1A:** transmisión, camino libre medio y sección eficaz.
+- **Compton 1B:** cinemática del estado final.
+
+El estudiante trabaja con la [hoja de la Clase 1](worksheets/class01.md) y observa el WRL antes de inspeccionar los datos.
+
+### Clase 2 — Del evento Monte Carlo al observable físico
+
+[Material en preparación](docs/classes/class02_analysis.md). Esta clase desarrollará análisis estadístico, incertidumbres, likelihood, fits, residuos y recuperación de parámetros físicos a partir de 1A y 1B.
+
+Después de aprender ese método, se aplicará en:
+
+- [Proyecto A — Multiple Coulomb Scattering de muones](docs/projects/projectA_mcs.md).
+- [Proyecto B — Pérdida de energía de muones en agua](docs/projects/projectB_energy_loss.md).
+- [Proyecto C — Sección eficaz de fisión en U-235](docs/projects/projectC_fission.md).
+
+Estos fundamentos pueden utilizarse posteriormente en aplicaciones de detectores construidas sobre Geant4.
+
+## Ruta de trabajo
+
+### Antes de Clase 1
 
 Solo necesitas Git y Docker:
 
@@ -17,182 +51,113 @@ git clone https://github.com/rmartinezra/geant4-particle-transport-course.git
 cd geant4-particle-transport-course
 
 docker pull rmartinezmaple/geant4-particle-transport-course:11.2.2
-docker compose run --rm geant4-course make test
+docker compose run --rm geant4-course make env-check
 ```
 
-`make test` compila los cinco módulos, genera cinco visualizaciones VRML, ejecuta simulaciones rápidas, analiza los datos y comprueba que las magnitudes físicas sean razonables.
+`env-check` verifica versiones, dependencias, datasets, escritura, compilación de los módulos Compton y una escena VRML temporal. No ejecuta barridos científicos, análisis ni fits.
 
-Tu primera práctica completa:
+### Durante Clase 1
 
 ```bash
 docker compose run --rm geant4-course make run-ex1a FAST=1
-docker compose run --rm geant4-course make analyze-ex1a
+docker compose run --rm geant4-course make run-ex1b FAST=1
 ```
 
-Al terminar encontrarás en `generated/`:
+Cada comando compila si hace falta, produce un WRL corto y ejecuta el barrido FAST. La [guía de la clase](docs/classes/class01_transport.md) indica qué predecir, observar y calcular; todavía no se ejecuta el análisis completo.
+
+### Durante Clase 2
+
+El flujo de análisis se desarrollará posteriormente. Los scripts existentes se conservan, pero no forman parte de la preparación de la Clase 1.
+
+### No ejecutar todavía
+
+Si quieres evitar spoilers antes de la clase, no ejecutes `make test`, `make all`, `make all FULL=1`, targets `analyze-*` ni consultes los resultados FULL.
+
+## Primero, observa las simulaciones
+
+Estas capturas proceden de WRL reales generados por Geant4 con `VRML2FILE`. Cada escena contiene geometría y trayectorias de diez eventos; no son dibujos esquemáticos.
+
+### Prácticas guiadas · Efecto Compton
+
+| Transmisión gamma en aluminio | Cinemática Compton |
+|:---:|:---:|
+| ![Fotones transmitidos y dispersados en el blanco de aluminio](examples/visualization/compton_transmission.png) | ![Fotones y electrones de eventos de dispersión Compton](examples/visualization/compton_kinematics.png) |
+| Permite distinguir transmisión sin interacción y dispersión. | Relaciona ángulo, fotón dispersado y electrón de retroceso. |
+
+### Proyectos A y B · Transporte de muones
+
+| Dispersión múltiple en hierro | Pérdida de energía en agua |
+|:---:|:---:|
+| ![Muones y secundarios dentro de un bloque de hierro](examples/visualization/muon_mcs.png) | ![Muones y secundarios atravesando un volumen de agua](examples/visualization/muon_water.png) |
+| El haz se ensancha al atravesar el hierro. | El muón atraviesa el agua y puede producir secundarios. |
+
+### Proyecto C · Fisión de U-235
+
+![Neutrones y secundarios de fisión producidos en el blanco de U-235](examples/visualization/neutron_fission.png)
+
+La configuración visual favorece observar fisiones con pocos eventos sin introducir biasing en la física.
+
+Los archivos `.wrl` propios quedan en `generated/visualization/` y se pueden abrir con un visor VRML externo. Consulta la [guía de visualización](docs/visualization.md).
+
+## Qué magnitudes aparecerán
+
+Los siguientes órdenes de magnitud sirven únicamente para orientar unidades y escalas; no sustituyen la predicción ni el resultado obtenido por cada estudiante.
+
+| Actividad | Magnitud orientativa |
+|---|---:|
+| Compton 1A | sección eficaz de aproximadamente `4.5 barn/átomo` |
+| Compton 1B | energía de reposo del electrón de aproximadamente `511 keV` |
+| Proyecto A | exponentes de espesor y momento de aproximadamente `0.5` y `1` |
+| Proyecto B | pérdida específica de aproximadamente `2.3 MeV/cm` |
+| Proyecto C | sección eficaz de aproximadamente `70 barn/átomo` |
+
+[Resultados FULL de referencia — contiene spoilers](docs/expected_results.md). Las cifras precisas y la galería completa de fits están deliberadamente fuera de esta página.
+
+## Salidas y comandos
+
+Los resultados se conservan en el checkout aunque se elimine el contenedor:
 
 ```text
 generated/
 ├── data/           # eventos y barridos Monte Carlo
 ├── figures/        # gráficas producidas por el análisis
 ├── fits/           # parámetros e incertidumbres
-├── logs/           # macros exactas, seeds y salida de Geant4
-└── visualization/  # geometría + trayectorias en archivos .wrl
+├── logs/           # macros, seeds y salida de Geant4
+└── visualization/  # geometría y trayectorias en archivos .wrl
 ```
-
-Todo queda guardado en tu computador aunque elimines el contenedor.
-
-## Material visual de las simulaciones
-
-Las siguientes capturas proceden de archivos WRL reales generados por Geant4 con `VRML2FILE`. Cada escena acumula diez eventos y contiene tanto la geometría como las trayectorias; no son dibujos esquemáticos.
-
-### Experimento 1 · Fotones y efecto Compton
-
-| Transmisión gamma en aluminio | Cinemática Compton |
-|:---:|:---:|
-| ![Fotones transmitidos y dispersados en el blanco de aluminio](examples/visualization/compton_transmission.png) | ![Fotones y electrones de eventos de dispersión Compton](examples/visualization/compton_kinematics.png) |
-| Se distinguen fotones que atraviesan el blanco y otros que cambian de dirección. | Las trayectorias permiten relacionar ángulo, fotón dispersado y electrón de retroceso. |
-
-### Experimentos 2 y 3 · Transporte de muones
-
-| Dispersión múltiple en hierro | Pérdida de energía en agua |
-|:---:|:---:|
-| ![Muones y secundarios dentro de un bloque de hierro](examples/visualization/muon_mcs.png) | ![Muones y secundarios atravesando un volumen de agua](examples/visualization/muon_water.png) |
-| El haz se ensancha y las trayectorias se desvían al cruzar el hierro. | Se observa el paso por el agua y la producción de partículas secundarias. |
-
-### Experimento 4 · Fisión de U-235
-
-![Neutrones y secundarios de fisión producidos en el blanco de U-235](examples/visualization/neutron_fission.png)
-
-La multiplicidad y la variedad de trayectorias hacen visible el carácter hadrónico del evento. Esta configuración de visualización favorece observar fisiones con pocos eventos, sin modificar la física mediante biasing.
-
-## Qué aprenderás
-
-El curso contiene cuatro experimentos organizados en cinco módulos:
-
-| Módulo | Pregunta física | Lo que medirás |
-|---|---|---|
-| **1A · Transmisión Compton** | ¿Cómo disminuye un haz gamma al atravesar aluminio? | `mu`, longitud libre `lambda` y sección eficaz `sigma` |
-| **1B · Cinemática Compton** | ¿Cómo cambia la energía del fotón con el ángulo? | `m_e c²` mediante un ajuste lineal |
-| **2 · Dispersión múltiple** | ¿Cómo escala la desviación de muones en hierro? | `sigma_core`, exponentes de espesor y momento |
-| **3 · Pérdida de energía** | ¿Cuánta energía pierde un muón en agua? | pérdida primaria, depósito, secundarios y `dE/dx` |
-| **4 · Fisión de U-235** | ¿Qué distancia recorre un neutrón antes de fisionar? | `lambda` y `sigma_fission`, incluyendo escapes censurados |
-
-La regla científica común es:
-
-```text
-eventos Geant4 → observable Monte Carlo → ajuste → magnitud física
-                                             ↓
-                              comparación posterior con referencia
-```
-
-Las referencias no se usan para forzar los ajustes.
-
-## Resultados esperados
-
-Estos valores provienen de las corridas FULL validadas. Una corrida nueva debe ser compatible dentro de su incertidumbre estadística, no idéntica bit a bit.
-
-| Módulo | Resultado FULL |
-|---|---:|
-| Compton 1A | `sigma = 4.54995 ± 0.01014 barn/átomo` |
-| Compton 1B | `m_e c² = 511.302 ± 0.068 keV` |
-| MCS | `alpha_x = 0.51350 ± 0.00110` |
-| MCS | `alpha_p = 1.03593 ± 0.00482` |
-| Pérdida en agua | `dE/dx = 2.29342 ± 0.0058 MeV/cm` |
-| Fisión U-235 | `sigma_fission = 69.493 ± 0.243 barn/átomo` |
-
-### Fits y resultados FULL
-
-Estas gráficas se produjeron con los scripts de análisis incluidos. Los puntos y distribuciones son Monte Carlo; las curvas de referencia se evalúan después de obtener el observable principal.
-
-| Transmisión Compton | Masa del electrón desde la cinemática |
-|:---:|:---:|
-| ![Transmisión gamma frente al espesor de aluminio](examples/expected_results/transmission_vs_thickness.png) | ![Ajuste linealizado de la relación de Compton](examples/expected_results/compton_linearized.png) |
-| Los puntos son eventos Monte Carlo agregados; la curva es el ajuste principal. | La pendiente se ajusta y determina `m_e c²`; la dispersión incluye física atómica. |
-
-| Escala MCS con el espesor | Escala MCS con el momento |
-|:---:|:---:|
-| ![Anchura angular de muones frente al espesor de hierro](examples/expected_results/width_vs_thickness.png) | ![Anchura angular de muones frente al momento](examples/expected_results/width_vs_momentum.png) |
-| El ajuste libre recupera aproximadamente `sigma ∝ x^0.5`. | El segundo barrido recupera aproximadamente `sigma ∝ p^-1`. |
-
-| Distribución de pérdida de energía | Poder de frenado en agua |
-|:---:|:---:|
-| ![Distribución con colas de la pérdida de energía de muones](examples/expected_results/energy_loss_distribution.png) | ![Poder de frenado de muones en agua con barras SEM](examples/expected_results/dedx_vs_energy.png) |
-| Media, mediana, cuantiles y cola radiativa se mantienen visibles. | Las barras son SEM y muestran la gran varianza a alta energía. |
-
-| Distancia hasta la primera fisión | Supervivencia con censura derecha |
-|:---:|:---:|
-| ![Distribución de distancias de interacción para fisión de U-235](examples/expected_results/interaction_length_distribution.png) | ![Supervivencia del neutrón y ajuste exponencial censurado](examples/expected_results/survival_probability.png) |
-| La distribución de longitudes permite estimar `lambda`. | Los neutrones que escapan aportan exposición y no se eliminan del estimador. |
-
-Hay más figuras y valores explicados en [resultados esperados](docs/expected_results.md).
-
-## Flujo recomendado para cada ejercicio
-
-1. Lee el `README.md` del ejercicio y formula una predicción.
-2. Ejecuta `FAST=1` para conocer el flujo y revisar el WRL.
-3. Abre el resumen en `generated/fits/` y las figuras en `generated/figures/`.
-4. Responde las preguntas del ejercicio usando tus resultados.
-5. Ejecuta `FULL=1` cuando necesites estadísticas de referencia.
-
-Ejemplo con dispersión múltiple:
-
-```bash
-docker compose run --rm geant4-course make run-ex2 FAST=1
-docker compose run --rm geant4-course make analyze-ex2
-```
-
-## Comandos útiles
 
 | Objetivo | Comando dentro de Docker |
 |---|---|
+| Comprobar el entorno de Clase 1 | `make env-check` |
+| Ver la ruta de Clase 1 sin ejecutarla | `make class01-help` |
 | Ver todas las opciones | `make help` |
-| Validar el curso completo | `make test` |
-| Ejecutar un módulo | `make run-ex1a FAST=1` |
-| Analizar un módulo | `make analyze-ex1a` |
-| Crear solo su VRML | `make visualize-ex1a` |
-| Crear los cinco VRML | `make visualize-all` |
-| Ejecutar todo en modo rápido | `make all FAST=1` |
+| Ejecutar una práctica FAST | `make run-ex1a FAST=1` |
+| Crear solo su WRL | `make visualize-ex1a` |
+| Analizar más adelante | `make analyze-ex1a` |
+| Validar el repositorio completo más adelante | `make test` |
 | Borrar resultados generados | `make clean-generated` |
 
-Cambia `ex1a` por `ex1b`, `ex2`, `ex3` o `ex4`.
+Cambia `ex1a` por `ex1b`, `ex2`, `ex3` o `ex4` según la actividad. `FAST=1` reduce la estadística sin cambiar la física; `FULL=1` ejecuta la producción de referencia y puede tardar bastante; `VIS=0` omite explícitamente el WRL automático.
 
-Opciones frecuentes:
+## Construcción local opcional
 
-- `FAST=1`: menos eventos, misma física y respuesta rápida.
-- `FULL=1`: estadísticas de referencia; puede tardar bastante.
-- `VIS=0`: omite explícitamente el WRL automático.
-- `VIS_EVENTS=20`: acumula más trayectorias; el mínimo es 10.
-- `SEED=12345` y `VIS_SEED=10101`: permiten reproducir una corrida.
-- `JOBS=4`: cambia el paralelismo de compilación y barridos.
-
-## Visualización sin interfaz gráfica
-
-Cada `make run-ex*` genera primero un archivo VRML2 con al menos diez eventos, salvo que uses `VIS=0`. El driver `VRML2FILE` funciona dentro del contenedor sin X11, Qt ni OpenGL.
-
-Los `.wrl` contienen **geometría y trayectorias reales**, quedan en `generated/visualization/` y pueden abrirse con cualquier visor VRML externo. Consulta la [guía de visualización](docs/visualization.md).
-
-## ¿Quieres construir la imagen tú mismo?
-
-El camino normal es `docker pull`. Para auditar o modificar la imagen:
+El flujo normal usa `docker pull`. Para auditar el Dockerfile o modificar la imagen:
 
 ```bash
 docker compose -f compose.yaml -f compose.build.yaml build
 docker compose run --rm geant4-course geant4-config --version
 ```
 
-El Dockerfile fija el código fuente y los checksums de Geant4 11.2.2 y de los datasets. La construcción local es opcional.
+El Dockerfile fija el código fuente y los checksums de Geant4 11.2.2 y sus datasets. La [guía Docker](docs/docker_quickstart.md) contiene detalles de persistencia, permisos y solución de problemas.
 
 ## Mapa de documentación
 
 - [Visión general y orden sugerido](docs/course_overview.md)
+- [Clase 1: de la sección eficaz al evento Monte Carlo](docs/classes/class01_transport.md)
+- [Hoja de trabajo de la Clase 1](worksheets/class01.md)
 - [Inicio rápido y solución de problemas Docker](docs/docker_quickstart.md)
 - [Notas físicas y decisiones de análisis](docs/physics_notes.md)
 - [Archivos VRML y trayectorias](docs/visualization.md)
-- [Resultados FULL y tolerancias FAST](docs/expected_results.md)
+- [Resultados FULL de referencia — contiene spoilers](docs/expected_results.md)
 
-El repositorio publica código, macros, documentación y una selección pequeña de PNG reales. Los CSV, WRL, logs, builds y datasets generados se conservan únicamente en `generated/` y están ignorados por Git.
-
-## Licencia y procedencia
-
-Los ejecutables parten de ejemplos oficiales de Geant4 y conservan sus avisos. El archivo [LICENSE](LICENSE) reproduce la licencia aplicable al código derivado; [CITATION.cff](CITATION.cff) contiene la información de citación del curso.
+Los CSV, WRL, logs, builds y datasets generados están ignorados por Git. El código derivado conserva los avisos aplicables de Geant4; consulta [LICENSE](LICENSE) y [CITATION.cff](CITATION.cff).
