@@ -18,6 +18,16 @@ docker compose run --rm geant4-course make visualize-ex1a
 
 Cada `visualization.mac` abre `VRML2FILE`, dibuja el volumen, activa el almacenamiento de trayectorias, acumula eventos y cierra la escena. El script comprueba el driver, la cabecera y el tamaño antes de conservar el archivo.
 
+En Compton 1A y 1B se usa una leyenda deliberadamente visible:
+
+| Color | Significado |
+|---|---|
+| Verde | trayectoria del fotón primario hasta salir o alcanzar la primera interacción |
+| Amarillo | dirección del fotón dispersado desde el vértice Compton |
+| Rojo | dirección del electrón de retroceso desde el mismo vértice |
+
+Los segmentos amarillo y rojo conservan las direcciones calculadas por Geant4, pero sus longitudes se escalan a `1.5 cm` y `1.0 cm` para que sean visibles. **No representan el alcance físico** del gamma ni del electrón. La producción numérica continúa deteniendo el evento en la primera interacción; esta ayuda existe únicamente en el WRL docente.
+
 Las rutas predeterminadas son:
 
 ```text
@@ -86,7 +96,7 @@ Usa el modo **Examine**, adecuado para inspeccionar un blanco y sus trayectorias
 - `Home`: recuperar una vista útil si la escena queda fuera de cámara;
 - `Space`: detener una rotación accidental.
 
-En Compton 1A busca el haz incidente, el bloque de aluminio y la diferencia entre trayectorias que atraviesan el blanco y trayectorias que cambian o terminan dentro de él. En Compton 1B busca el vértice de interacción, el fotón dispersado y el electrón de retroceso.
+En Compton 1A busca el haz verde, el bloque de aluminio y la diferencia entre líneas que atraviesan el blanco y líneas que terminan en un vértice con vectores amarillo y rojo. En Compton 1B relaciona, para cada vértice, el fotón dispersado amarillo y el electrón de retroceso rojo.
 
 Las escenas contienen solo diez eventos para que las trayectorias sigan siendo legibles. No representan la estadística completa del análisis.
 

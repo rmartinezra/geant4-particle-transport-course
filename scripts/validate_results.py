@@ -38,11 +38,21 @@ def main() -> int:
             for path in files
         )
         metadata_files = list((root / "generated/visualization" / module).glob("*.metadata.txt"))
-        metadata_text = "\n".join(path.read_text(encoding="utf-8") for path in metadata_files)
+        metadata_records = [path.read_text(encoding="utf-8") for path in metadata_files]
+        metadata_text = "\n".join(metadata_records)
         event_counts = [int(item) for item in re.findall(r"^events=(\d+)$", metadata_text, re.M)]
         checks[f"{module}_wrl_10events"] = (
             bool(event_counts) and min(event_counts) >= 10 and "driver=VRML2FILE" in metadata_text
         )
+        if module in {"ex1a", "ex1b"}:
+            checks[f"{module}_compton_guides"] = any(
+                "scaled_compton_guides=true" in record
+                and int(re.search(r"^polylines=(\d+)$", record, re.M).group(1))
+                > int(re.search(r"^events=(\d+)$", record, re.M).group(1))
+                for record in metadata_records
+                if re.search(r"^polylines=(\d+)$", record, re.M)
+                and re.search(r"^events=(\d+)$", record, re.M)
+            )
         logs = list((root / "generated/logs/visualization" / module).glob("*.log"))
         log_text = "\n".join(path.read_text(encoding="utf-8", errors="replace") for path in logs)
         bad_vis = ("command not found", "ERROR: G4VisCommand", "ERROR: No graphics system")
@@ -57,7 +67,9 @@ def main() -> int:
         "generated/data/ex3/energy_loss_events.csv",
         "generated/data/ex4/hadronic_events.csv",
         "generated/figures/ex1a/transmission_vs_thickness.png",
+        "generated/figures/ex1a/transmission_residuals.png",
         "generated/figures/ex1b/compton_linearized.png",
+        "generated/figures/ex1b/compton_residuals.png",
         "generated/figures/ex2/width_vs_thickness.png",
         "generated/figures/ex3/dedx_vs_energy.png",
         "generated/figures/ex4/interaction_length_distribution.png",

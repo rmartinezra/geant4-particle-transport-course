@@ -38,7 +38,8 @@ FIELDS = [
 
 def parse_args() -> argparse.Namespace:
     project = Path(__file__).resolve().parents[1]
-    default_executable = project.parent / "build" / "A" / "TestEm13"
+    repository = project.parents[2]
+    default_executable = repository / "build" / "ex1a" / "TestEm13"
     parser = argparse.ArgumentParser()
     parser.add_argument("--executable", type=Path, default=default_executable)
     parser.add_argument("--events", type=int, default=100_000)
@@ -102,7 +103,7 @@ def main() -> int:
     executable = args.executable.resolve()
     output = args.output.resolve()
     if not executable.is_file():
-        raise SystemExit(f"No existe el ejecutable: {executable}. Ejecute build_and_test.sh")
+        raise SystemExit(f"No existe el ejecutable: {executable}. Ejecute make build")
     if output.exists() and not args.force:
         raise SystemExit(f"Ya existe {output}; use --force para reemplazarlo conscientemente")
 

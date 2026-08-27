@@ -20,6 +20,8 @@ El parámetro $m_e c^2$ es libre. El modelo Compton de Geant4 puede incluir elec
 
 La incertidumbre del fit es dispersión estadística del modelo Monte Carlo, no una medición experimental de la incertidumbre de la masa del electrón. La referencia física de $510.999\ \mathrm{keV}$, los efectos del modelo y una eventual resolución instrumental artificial son conceptos distintos.
 
+En los WRL docentes, el gamma dispersado y el electrón de retroceso se dibujan como vectores de dirección escalados. Sus orientaciones proceden del estado final de la primera interacción; sus longitudes visuales no representan rangos ni caminos libres.
+
 ## MCS
 
 Las direcciones simuladas producen $\theta_x$, $\theta_y$ y $\theta_{\mathrm{total}}$. Se guardan media, desviación estándar, RMS y cuantiles $q_{16}/q_{50}/q_{84}$. El estimador principal es $\sigma_{\mathrm{core}}=(q_{84}-q_{16})/2$; los exponentes de espesor y momento quedan libres. Highland aparece únicamente como comparación posterior en Python.

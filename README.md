@@ -30,7 +30,7 @@ El estudiante trabaja con la [hoja de la Clase 1](worksheets/class01.md) y obser
 
 ### Clase 2 — Del evento Monte Carlo al observable físico
 
-[Material en preparación](docs/classes/class02_analysis.md). Esta clase desarrollará análisis estadístico, incertidumbres, likelihood, fits, residuos y recuperación de parámetros físicos a partir de 1A y 1B.
+La [guía completa de la Clase 2](docs/classes/class02_analysis.md) desarrolla análisis estadístico, incertidumbres, likelihood, fits, residuos y recuperación de parámetros físicos a partir de 1A y 1B. La [hoja de trabajo](worksheets/class02.md) organiza la auditoría de datos, los resultados y la comparación posterior con referencias.
 
 Después de aprender ese método, se aplicará en:
 
@@ -67,7 +67,12 @@ Cada comando compila si hace falta, produce un WRL corto y ejecuta el barrido FA
 
 ### Durante Clase 2
 
-El flujo de análisis se desarrollará posteriormente. Los scripts existentes se conservan, pero no forman parte de la preparación de la Clase 1.
+```bash
+docker compose run --rm geant4-course make class02-help
+docker compose run --rm geant4-course make analyze-class02
+```
+
+El segundo comando reutiliza los CSV de 1A y 1B y produce ajustes, incertidumbres, figuras principales y residuos. Si los CSV no existen, la [guía de la Clase 2](docs/classes/class02_analysis.md) indica cómo generarlos en modo FAST sin repetir los WRL.
 
 ### No ejecutar todavía
 
@@ -76,6 +81,8 @@ Si quieres evitar spoilers antes de la clase, no ejecutes `make test`, `make all
 ## Primero, observa las simulaciones
 
 Estas capturas proceden de WRL reales generados por Geant4 con `VRML2FILE`. Cada escena contiene geometría y trayectorias de diez eventos; no son dibujos esquemáticos.
+
+En las escenas Compton, verde representa el gamma incidente o transmitido. Cuando ocurre una interacción, amarillo muestra la dirección del fotón dispersado y rojo la del electrón de retroceso; esos dos vectores se escalan para hacer visible la cinemática y no representan el alcance recorrido.
 
 ### Prácticas guiadas · Efecto Compton
 
@@ -140,10 +147,12 @@ generated/
 |---|---|
 | Comprobar el entorno de Clase 1 | `make env-check` |
 | Ver la ruta de Clase 1 sin ejecutarla | `make class01-help` |
+| Ver la ruta de Clase 2 | `make class02-help` |
 | Ver todas las opciones | `make help` |
 | Ejecutar una práctica FAST | `make run-ex1a FAST=1` |
 | Crear solo su WRL | `make visualize-ex1a` |
 | Analizar más adelante | `make analyze-ex1a` |
+| Analizar 1A y 1B en Clase 2 | `make analyze-class02` |
 | Validar el repositorio completo más adelante | `make test` |
 | Borrar resultados generados | `make clean-generated` |
 
@@ -165,6 +174,8 @@ El Dockerfile fija el código fuente y los checksums de Geant4 11.2.2 y sus data
 - [Visión general y orden sugerido](docs/course_overview.md)
 - [Clase 1: de la sección eficaz al evento Monte Carlo](docs/classes/class01_transport.md)
 - [Hoja de trabajo de la Clase 1](worksheets/class01.md)
+- [Clase 2: del evento al resultado físico](docs/classes/class02_analysis.md)
+- [Hoja de trabajo de la Clase 2](worksheets/class02.md)
 - [Inicio rápido y solución de problemas Docker](docs/docker_quickstart.md)
 - [Notas físicas y decisiones de análisis](docs/physics_notes.md)
 - [Abrir archivos VRML y estudiar trayectorias con Castle](docs/visualization.md)

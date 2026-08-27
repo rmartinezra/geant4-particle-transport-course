@@ -79,6 +79,13 @@ def main() -> int:
     s_slope = float(1.0 / np.sqrt(np.sum(weights * x * x)))
     mu_log, s_mu_log = -slope, s_slope
 
+    probability_fit = exponential(x, mu)
+    expected_transmitted = n * probability_fit
+    pearson_denominator = np.sqrt(n * probability_fit * (1.0 - probability_fit))
+    pearson_residual = (k - expected_transmitted) / pearson_denominator
+    pearson_chi2 = float(np.dot(pearson_residual, pearson_residual))
+    pearson_dof = max(1, len(x) - 1)
+
     atom_density_values = np.asarray(table["atomic_number_density_cm3"], float)
     atom_density = float(np.mean(atom_density_values))
     if not np.allclose(atom_density_values, atom_density, rtol=1e-10):
@@ -119,6 +126,17 @@ def main() -> int:
     fig.savefig(args.figure_dir / "log_transmission_vs_thickness.png", dpi=180)
     plt.close(fig)
 
+    fig, ax = plt.subplots(figsize=(7.2, 4.5))
+    ax.axhline(0.0, color="black", lw=1)
+    ax.axhline(2.0, color="0.5", lw=1, ls="--")
+    ax.axhline(-2.0, color="0.5", lw=1, ls="--")
+    ax.plot(x, pearson_residual, "o", color="tab:blue")
+    ax.set(xlabel="Espesor x [cm]", ylabel="Residuo de Pearson")
+    ax.grid(alpha=0.25)
+    fig.tight_layout()
+    fig.savefig(args.figure_dir / "transmission_residuals.png", dpi=180)
+    plt.close(fig)
+
     material = str(np.atleast_1d(table["material"])[0]) if "material" in table.dtype.names else "desconocido"
     energy = float(np.mean(np.asarray(table["energy_keV"], float)))
     summary = f"""Experimento 1A - transmision Compton
@@ -141,6 +159,11 @@ weighted_exponential_mu_cm^-1 = {mu_exp:.12g}
 weighted_exponential_uncertainty_mu_cm^-1 = {s_mu_exp:.12g}
 linear_log_mu_cm^-1 = {mu_log:.12g}
 linear_log_uncertainty_mu_cm^-1 = {s_mu_log:.12g}
+
+pearson_chi2 = {pearson_chi2:.12g}
+pearson_degrees_of_freedom = {pearson_dof}
+pearson_chi2_per_dof = {pearson_chi2/pearson_dof:.12g}
+max_abs_pearson_residual = {np.max(np.abs(pearson_residual)):.12g}
 
 geant4_reference_mu_cm^-1 = {reference_mu:.12g}
 geant4_reference_sigma_cm2_per_atom = {reference_sigma:.12g}

@@ -251,7 +251,7 @@ Para conservar la captura solicitada en la entrega:
   generated/visualization/ex1a/compton_transmission_10events.wrl
 ```
 
-Busca el haz incidente, el volumen de aluminio, trayectorias que alcanzan el límite y trayectorias que terminan en una interacción. Dependiendo de cómo el visor represente el vértice y las partículas creadas, también pueden distinguirse cambios de dirección o secundarios en el punto de interacción.
+Busca el haz verde, el volumen de aluminio, trayectorias que alcanzan el límite y trayectorias que terminan en una interacción. En cada vértice Compton, el vector amarillo indica la dirección del fotón dispersado y el rojo la del electrón de retroceso. Ambos están escalados para ser visibles y no representan el alcance físico.
 
 Preguntas para discutir antes de mirar el CSV:
 
@@ -344,7 +344,7 @@ generated/visualization/ex1b/compton_kinematics_10events.wrl
   generated/visualization/ex1b/compton_kinematics_10events.wrl
 ```
 
-Identifica el fotón incidente, el punto de interacción, el fotón dispersado, el electrón de retroceso y el cambio de dirección cuando sean visibles. Una imagen de diez eventos sirve para formular preguntas; no reemplaza la estadística de miles de eventos.
+Identifica el fotón incidente verde, el punto de interacción, el fotón dispersado amarillo y el electrón de retroceso rojo. Los vectores de salida comparten vértice y conservan las direcciones de Geant4, pero están escalados para ser legibles. Una imagen de diez eventos sirve para formular preguntas; no reemplaza la estadística de miles de eventos.
 
 ## 2. Cinemática Compton
 
