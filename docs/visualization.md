@@ -64,6 +64,18 @@ CASTLE_VIEWER_EXE=/ruta/al/castle-model-viewer.exe \
   ./scripts/open_wrl_castle.sh generated/visualization/ex1a/compton_transmission_10events.wrl
 ```
 
+### Crear una captura PNG reproducible
+
+Castle también puede renderizar el WRL sin depender de una ventana interactiva:
+
+```bash
+./scripts/open_wrl_castle.sh --screenshot \
+  generated/visualization/ex1a/compton_transmission_castle.png \
+  generated/visualization/ex1a/compton_transmission_10events.wrl
+```
+
+El helper crea una imagen de `1000 × 700` con antialiasing y se niega a sobrescribir una captura existente. Esta opción sirve para la entrega de Clase 1 y para diagnosticar si el problema está en el WRL o únicamente en la presentación de la ventana.
+
 ## 4. Orientarse en la escena
 
 Usa el modo **Examine**, adecuado para inspeccionar un blanco y sus trayectorias:
@@ -92,6 +104,6 @@ Las escenas contienen solo diez eventos para que las trayectorias sigan siendo l
 2. Ejecuta Castle mediante `open_wrl_castle.sh`; no ejecutes `view3dscene` dentro de WSL.
 3. Usa `Alt` + `Tab` para llevar Castle al frente y pulsa `Home` dentro del visor.
 4. Si Castle abre pero no carga el archivo, usa **File → Open** y selecciona el mismo WRL desde el checkout.
-5. Compara con las imágenes publicadas en la [galería del README](../README.md#primero-observa-las-simulaciones). Esas PNG proceden de WRL reales del curso.
+5. Genera una captura con `open_wrl_castle.sh --screenshot` y compárala con las imágenes publicadas en la [galería del README](../README.md#primero-observa-las-simulaciones). Esas PNG proceden de WRL reales del curso.
 
 Los WRL generados están ignorados por Git; solo se publican las capturas pequeñas usadas como referencia visual.

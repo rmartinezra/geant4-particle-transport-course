@@ -41,7 +41,7 @@ No se espera que el estudiante ejecute todos los módulos al comenzar. Antes de 
 ## Entregables de la Clase 1
 
 - [Hoja de trabajo de la Clase 1](../worksheets/class01.md), completada sin consultar los resultados de referencia.
-- Archivos WRL de las prácticas 1A y 1B observados antes del análisis numérico.
+- Archivos WRL de las prácticas 1A y 1B observados con [Castle Model Viewer](visualization.md) antes del análisis numérico.
 - Cálculos propios de transmisión, coeficiente de atenuación, longitud libre media y relación de Compton.
 
 La [página principal](../README.md) contiene el inicio rápido y el mapa completo del repositorio.

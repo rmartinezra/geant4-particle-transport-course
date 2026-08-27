@@ -4,6 +4,8 @@
 
 La Clase 2 conectará los datos por evento con estadística descriptiva, incertidumbre, ajustes y comunicación reproducible de resultados.
 
+Usará el mismo checkout, la misma imagen Docker fijada en Geant4 11.2.2 y los datos producidos en la Clase 1. Castle Model Viewer seguirá siendo el visor de los WRL; no se debe instalar ni ejecutar un visor dentro del contenedor. Consulta la [guía de visualización](../visualization.md).
+
 ## Preguntas que organizarán la clase
 
 - ¿Qué observable responde realmente a la pregunta física?
