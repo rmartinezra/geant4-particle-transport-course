@@ -81,11 +81,11 @@ ____________________________________________________________________________
 Completa:
 
 $$
-K_i\sim\operatorname{________________}(N_i,p_i)
+K_i\sim\underline{\hspace{4cm}}(N_i,p_i)
 $$
 
 $$
-p_i=\operatorname{________________}(-\mu x_i)
+p_i=\underline{\hspace{4cm}}(-\mu x_i)
 $$
 
 ¿Por qué el ajuste principal debe conservar $N_i$ y $K_i$, en vez de usar únicamente seis valores de $T_i$?
