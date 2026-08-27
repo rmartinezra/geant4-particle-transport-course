@@ -24,11 +24,24 @@ declare -a MODULES=(
 for item in "${MODULES[@]}"; do
   name="${item%%|*}"
   source_dir="${item#*|}"
+  absolute_source_dir="$ROOT_DIR/$source_dir"
+  build_dir="$ROOT_DIR/build/$name"
+  cache_file="$build_dir/CMakeCache.txt"
+
+  if [[ -f "$cache_file" ]]; then
+    cached_source_dir="$(sed -n 's/^CMAKE_HOME_DIRECTORY:INTERNAL=//p' "$cache_file")"
+    cached_build_dir="$(sed -n 's/^CMAKE_CACHEFILE_DIR:INTERNAL=//p' "$cache_file")"
+    if [[ "$cached_source_dir" != "$absolute_source_dir" || "$cached_build_dir" != "$build_dir" ]]; then
+      echo "[BUILD] ${name}: regenerando caché creada desde otra ruta"
+      find "$build_dir" -mindepth 1 -delete
+    fi
+  fi
+
   echo "[BUILD] ${name}"
-  cmake -S "$ROOT_DIR/$source_dir" -B "$ROOT_DIR/build/$name" \
+  cmake -S "$absolute_source_dir" -B "$build_dir" \
     -DGeant4_DIR="$G4_CMAKE_DIR" -DWITH_GEANT4_UIVIS=ON \
     -DCMAKE_BUILD_TYPE=Release
-  cmake --build "$ROOT_DIR/build/$name" -j"$JOBS"
+  cmake --build "$build_dir" -j"$JOBS"
 done
 
 echo "[BUILD] Geant4 $(geant4-config --version); cinco módulos compilados."

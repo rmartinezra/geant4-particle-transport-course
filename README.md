@@ -97,7 +97,17 @@ Estas capturas proceden de WRL reales generados por Geant4 con `VRML2FILE`. Cada
 
 La configuración visual favorece observar fisiones con pocos eventos sin introducir biasing en la física.
 
-Los archivos `.wrl` propios quedan en `generated/visualization/` y se pueden abrir con un visor VRML externo. Consulta la [guía de visualización](docs/visualization.md).
+Los archivos `.wrl` propios quedan en `generated/visualization/`. El visor recomendado es **[Castle Model Viewer](https://castle-engine.io/castle-model-viewer)**, sucesor actual de `view3dscene`.
+
+En Windows con WSL, prepáralo una sola vez y abre la primera escena así, siempre **fuera del contenedor**:
+
+```bash
+./scripts/setup_castle_viewer_windows.sh
+./scripts/open_wrl_castle.sh \
+  generated/visualization/ex1a/compton_transmission_10events.wrl
+```
+
+Castle se ejecuta como aplicación nativa de Windows, por lo que no depende de que WSLg muestre correctamente una ventana Linux. La [guía de visualización](docs/visualization.md) explica la instalación manual, los controles y la solución de problemas.
 
 ## Qué magnitudes aparecerán
 
@@ -157,7 +167,7 @@ El Dockerfile fija el código fuente y los checksums de Geant4 11.2.2 y sus data
 - [Hoja de trabajo de la Clase 1](worksheets/class01.md)
 - [Inicio rápido y solución de problemas Docker](docs/docker_quickstart.md)
 - [Notas físicas y decisiones de análisis](docs/physics_notes.md)
-- [Archivos VRML y trayectorias](docs/visualization.md)
+- [Abrir archivos VRML y estudiar trayectorias con Castle](docs/visualization.md)
 - [Resultados FULL de referencia — contiene spoilers](docs/expected_results.md)
 
 Los CSV, WRL, logs, builds y datasets generados están ignorados por Git. El código derivado conserva los avisos aplicables de Geant4; consulta [LICENSE](LICENSE) y [CITATION.cff](CITATION.cff).

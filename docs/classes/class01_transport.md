@@ -226,7 +226,14 @@ generated/logs/ex1a/
 
 ## 2. Mirar primero el WRL
 
-Abre `generated/visualization/ex1a/compton_transmission_10events.wrl` en un visor VRML externo. El visor no forma parte del contenedor.
+Abre `generated/visualization/ex1a/compton_transmission_10events.wrl` con **Castle Model Viewer**. El visor se ejecuta en el sistema anfitrión y no forma parte del contenedor. En Windows con WSL:
+
+```bash
+./scripts/open_wrl_castle.sh \
+  generated/visualization/ex1a/compton_transmission_10events.wrl
+```
+
+Si todavía no lo preparaste, ejecuta una vez `./scripts/setup_castle_viewer_windows.sh`. La [guía de visualización](../visualization.md) contiene el procedimiento completo.
 
 Busca el haz incidente, el volumen de aluminio, trayectorias que alcanzan el límite y trayectorias que terminan en una interacción. Dependiendo de cómo el visor represente el vértice y las partículas creadas, también pueden distinguirse cambios de dirección o secundarios en el punto de interacción.
 
@@ -312,6 +319,13 @@ Mira primero:
 
 ```text
 generated/visualization/ex1b/compton_kinematics_10events.wrl
+```
+
+Ábrelo desde WSL con:
+
+```bash
+./scripts/open_wrl_castle.sh \
+  generated/visualization/ex1b/compton_kinematics_10events.wrl
 ```
 
 Identifica el fotón incidente, el punto de interacción, el fotón dispersado, el electrón de retroceso y el cambio de dirección cuando sean visibles. Una imagen de diez eventos sirve para formular preguntas; no reemplaza la estadística de miles de eventos.
