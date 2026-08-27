@@ -42,6 +42,8 @@ ____________________________________________________________________________
 
 ### Observación del WRL
 
+Abre la escena con Castle siguiendo la [guía de visualización](../docs/visualization.md) antes de consultar el CSV.
+
 Nombre del archivo observado: _______________________________________________
 
 Describe una trayectoria que alcanza el límite y otra que termina dentro del aluminio.
@@ -93,6 +95,8 @@ ____________________________________________________________________________
 ____________________________________________________________________________
 
 ### Observación del WRL
+
+Abre la escena con Castle antes de inspeccionar los eventos del CSV.
 
 Nombre del archivo observado: _______________________________________________
 

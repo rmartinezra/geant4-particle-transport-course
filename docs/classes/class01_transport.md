@@ -1,6 +1,6 @@
 # Antes de la clase
 
-Para esta clase solo necesitas **Git** y **Docker**. No necesitas instalar Geant4, CMake ni Python en tu sistema.
+Para ejecutar la simulación solo necesitas **Git** y **Docker**. No necesitas instalar Geant4, CMake ni Python en tu sistema. Para observar las escenas 3D usarás **Castle Model Viewer** en el sistema anfitrión.
 
 ```bash
 git clone https://github.com/rmartinezra/geant4-particle-transport-course.git
@@ -15,6 +15,14 @@ El último comando comprueba el entorno, compila únicamente los dos módulos Co
 ```text
 Entorno listo para la Clase 1.
 ```
+
+Si trabajas en Windows con WSL, prepara una sola vez el visor portátil:
+
+```bash
+./scripts/setup_castle_viewer_windows.sh
+```
+
+Este comando no instala nada dentro de Docker. La [guía de visualización](../visualization.md) incluye la alternativa manual y las instrucciones para Linux nativo.
 
 Antes de la clase **no ejecutes** `make test`, `make all`, `FULL=1` ni consultes los resultados FULL exactos. Esos comandos adelantan observables y ajustes que construiremos durante el curso.
 
@@ -226,7 +234,22 @@ generated/logs/ex1a/
 
 ## 2. Mirar primero el WRL
 
-Abre `generated/visualization/ex1a/compton_transmission_10events.wrl` en un visor VRML externo. El visor no forma parte del contenedor.
+Abre `generated/visualization/ex1a/compton_transmission_10events.wrl` con **Castle Model Viewer**. El visor se ejecuta en el sistema anfitrión y no forma parte del contenedor. En Windows con WSL:
+
+```bash
+./scripts/open_wrl_castle.sh \
+  generated/visualization/ex1a/compton_transmission_10events.wrl
+```
+
+Si todavía no lo preparaste, ejecuta una vez `./scripts/setup_castle_viewer_windows.sh`. La [guía de visualización](../visualization.md) contiene el procedimiento completo.
+
+Para conservar la captura solicitada en la entrega:
+
+```bash
+./scripts/open_wrl_castle.sh --screenshot \
+  generated/visualization/ex1a/compton_transmission_castle.png \
+  generated/visualization/ex1a/compton_transmission_10events.wrl
+```
 
 Busca el haz incidente, el volumen de aluminio, trayectorias que alcanzan el límite y trayectorias que terminan en una interacción. Dependiendo de cómo el visor represente el vértice y las partículas creadas, también pueden distinguirse cambios de dirección o secundarios en el punto de interacción.
 
@@ -312,6 +335,13 @@ Mira primero:
 
 ```text
 generated/visualization/ex1b/compton_kinematics_10events.wrl
+```
+
+Ábrelo desde WSL con:
+
+```bash
+./scripts/open_wrl_castle.sh \
+  generated/visualization/ex1b/compton_kinematics_10events.wrl
 ```
 
 Identifica el fotón incidente, el punto de interacción, el fotón dispersado, el electrón de retroceso y el cambio de dirección cuando sean visibles. Una imagen de diez eventos sirve para formular preguntas; no reemplaza la estadística de miles de eventos.
@@ -433,7 +463,7 @@ Al finalizar debes poder responder, con tus propias palabras:
 ## Nota para quien guía la clase
 
 - Pida predicciones antes de mostrar cada ecuación o archivo.
-- Abra WRL antes que CSV, y CSV antes que scripts de análisis.
+- Abra los WRL con Castle antes que los CSV, y los CSV antes que los scripts de análisis.
 - No muestre las gráficas FULL ni valores precisos durante la actividad.
 - Si falta tiempo, preserve el cálculo manual de 1A y la inspección evento a evento de 1B.
 - Reserve arquitectura detallada, likelihood, fits, residuos e incertidumbres para Clase 2.

@@ -44,7 +44,7 @@ help:
 	@echo "  make visualize-ex1a ... visualize-ex4 [VIS_EVENTS>=10] [VIS_SEED=N]"
 
 env-check:
-	@BUILD_JOBS=$(JOBS) ./scripts/env_check.sh
+	@BUILD_JOBS=$(JOBS) bash ./scripts/env_check.sh
 
 class01-help:
 	@echo "Antes de la clase:"
@@ -62,7 +62,7 @@ class01-help:
 	@echo "  generated/visualization/"
 
 build:
-	@BUILD_JOBS=$(JOBS) ./scripts/build_all.sh
+	@BUILD_JOBS=$(JOBS) bash ./scripts/build_all.sh
 
 define maybe_vis
 	@if [[ "$(VIS)" == "1" ]]; then \
@@ -147,13 +147,13 @@ analyze-ex4:
 all: run-ex1a analyze-ex1a run-ex1b analyze-ex1b run-ex2 analyze-ex2 run-ex3 analyze-ex3 run-ex4 analyze-ex4
 
 test:
-	@./scripts/test_all.sh
+	@bash ./scripts/test_all.sh
 
 check-repo:
 	@python3 scripts/check_repo_clean.py
 
 clean-generated:
-	@./scripts/clean_generated.sh
+	@bash ./scripts/clean_generated.sh
 
 clean: clean-generated
 	@if [[ -d build ]]; then find build -mindepth 1 -delete; fi

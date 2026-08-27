@@ -72,6 +72,9 @@ No uses `latest` para entregar resultados evaluables; una etiqueta explícita ev
 
 - **Docker no está iniciado:** abre Docker Desktop o inicia el servicio Docker y repite el comando.
 - **Permiso denegado en Linux:** comprueba que tu usuario pertenece al grupo `docker` o ejecuta Docker según la política de tu laboratorio.
+- **`./scripts/build_all.sh: Permission denied` en un checkout antiguo:** actualiza el repositorio con `git pull`. Como solución inmediata, ejecuta `chmod +x scripts/*.sh`. Las versiones actuales invocan los scripts mediante Bash y conservan además sus modos ejecutables en Git.
+- **CMake dice que el caché fue creado en otra ruta:** ocurre al alternar entre compilación local y Docker. El script actual detecta la diferencia y regenera únicamente el subdirectorio `build/` afectado; no elimina CSV, WRL ni figuras.
 - **Archivos propiedad de root:** antepone `UID=$(id -u) GID=$(id -g)` al comando Compose.
 - **Poco espacio:** la imagen ocupa aproximadamente 1.96 GB sin comprimir; `docker system df` muestra el uso local.
 - **Una corrida FULL tarda mucho:** empieza con `FAST=1`; la física es la misma y cambia la estadística.
+- **El visor Linux no aparece bajo WSLg:** usa Castle Model Viewer para Windows según la [guía de visualización](visualization.md). El WRL ya fue generado correctamente; el visor se abre fuera de Docker.
