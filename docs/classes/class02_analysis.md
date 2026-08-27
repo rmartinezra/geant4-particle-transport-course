@@ -137,7 +137,7 @@ Predice también si $T$ debería crecer o decrecer con $x$. Una inversión peque
 Para el espesor $x_i$, el número transmitido se modela como
 
 $$
-K_i\sim\operatorname{Binomial}(N_i,p_i)
+K_i\sim\mathrm{Binomial}(N_i,p_i)
 $$
 
 con
@@ -313,10 +313,15 @@ La curva ideal organiza la correlación, pero los eventos de Geant4 pueden dispe
 La relación también puede escribirse como
 
 $$
-\underbrace{\left(\frac{1}{E_\gamma'}-\frac{1}{E_0}\right)}_Y
-=
-\frac{1}{M}
-\underbrace{(1-\cos\theta)}_X
+X=1-\cos\theta,
+\qquad
+Y=\frac{1}{E_\gamma'}-\frac{1}{E_0}
+$$
+
+de modo que
+
+$$
+Y=\frac{X}{M}
 $$
 
 El ajuste físico pasa por el origen y tiene pendiente $1/M$. El script añade un ajuste con intercepto libre como diagnóstico:
