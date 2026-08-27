@@ -25,6 +25,17 @@ docker compose run --rm geant4-course make test
 
 Este comando no forma parte de la preparación de la Clase 1.
 
+## Análisis de la Clase 2
+
+Cuando ya existan los CSV de Compton 1A y 1B:
+
+```bash
+docker compose run --rm geant4-course make class02-help
+docker compose run --rm geant4-course make analyze-class02
+```
+
+El análisis crea figuras, residuos y resúmenes en `generated/` sin modificar los CSV de entrada.
+
 ## Persistencia
 
 Compose monta el checkout como `/workspace`. Los datos, figuras, fits, logs y WRL quedan en `generated/` del host aunque se elimine el contenedor.

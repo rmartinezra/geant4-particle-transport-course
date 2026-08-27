@@ -60,6 +60,8 @@ def main() -> int:
         macro = temp / "visualization.mac"
         macro.write_text(text, encoding="utf-8")
         env = os.environ.copy()
+        if args.module in {"ex1a", "ex1b"}:
+            env["G4COURSE_VISUALIZE_COMPTON_GUIDES"] = "1"
         if args.module == "ex4":
             env["G4COURSE_KEEP_SECONDARIES"] = "1"
         command = [str(executable), str(macro)]
@@ -94,10 +96,18 @@ def main() -> int:
         shutil.move(str(selected), destination)
     if destination.stat().st_size == 0:
         raise RuntimeError("El WRL está vacío")
+    polyline_count = destination.read_text(encoding="utf-8", errors="replace").count("POLYLINE")
+    if args.module in {"ex1a", "ex1b"} and polyline_count <= args.events:
+        raise RuntimeError(
+            "El WRL Compton no contiene trayectorias secundarias; "
+            f"se esperaban más de {args.events} POLYLINE y se obtuvieron {polyline_count}"
+        )
     metadata = output_dir / f"{basename}_{args.events}events.metadata.txt"
     metadata.write_text(
         f"module={args.module}\nevents={args.events}\nseed={args.seed}\n"
-        f"driver=VRML2FILE\nfile={destination.name}\nbytes={destination.stat().st_size}\n",
+        f"driver=VRML2FILE\nfile={destination.name}\nbytes={destination.stat().st_size}\n"
+        f"polylines={polyline_count}\n"
+        f"scaled_compton_guides={str(args.module in {'ex1a', 'ex1b'}).lower()}\n",
         encoding="utf-8",
     )
     print(f"[VIS] {destination.relative_to(root)} ({destination.stat().st_size} bytes)")

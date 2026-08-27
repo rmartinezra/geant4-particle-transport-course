@@ -22,6 +22,8 @@ Las corridas FULL usaron 100 000 eventos por punto para Compton A, MCS, pérdida
 
 Las gráficas publicadas en `examples/expected_results/` proceden de esas corridas FULL; no se incluyen sus CSV fuente. En pérdida de energía, las barras de `dedx_vs_energy.png` son SEM y las distribuciones conservan las colas radiativas.
 
+El análisis actual de la Clase 2 genera además `transmission_residuals.png` y `compton_residuals.png` a partir de los datos de cada estudiante. No se publican aquí como sustituto: deben examinarse primero con la muestra y la seed realmente utilizadas.
+
 ## Galería completa de resultados y fits
 
 ### Prácticas guiadas 1A y 1B

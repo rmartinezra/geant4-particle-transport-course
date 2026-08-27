@@ -158,6 +158,30 @@ def main() -> int:
     plt.close(fig)
 
     plot_index = np.linspace(0, len(x) - 1, min(20_000, len(x)), dtype=int)
+    nonlinear_residual = energy - model(cos_theta, e0, mass_nl)
+    bin_edges = np.linspace(0.0, 180.0, 19)
+    bin_centers: list[float] = []
+    bin_medians: list[float] = []
+    for low, high in zip(bin_edges[:-1], bin_edges[1:]):
+        in_bin = (theta >= low) & (theta < high)
+        if np.any(in_bin):
+            bin_centers.append(0.5 * (low + high))
+            bin_medians.append(float(np.median(nonlinear_residual[in_bin])))
+
+    fig, ax = plt.subplots(figsize=(7.4, 4.8))
+    ax.axhline(0.0, color="black", lw=1)
+    ax.scatter(theta[plot_index], nonlinear_residual[plot_index], s=3, alpha=0.18,
+               label="Eventos (submuestra visual)")
+    ax.plot(bin_centers, bin_medians, "o-", color="crimson", lw=1.5,
+            label="Mediana por intervalo angular")
+    ax.set(xlabel=r"Ángulo del gamma $\theta$ [grados]",
+           ylabel=r"Residuo $E_\gamma'-E_\mathrm{fit}'$ [keV]")
+    ax.grid(alpha=0.25)
+    ax.legend()
+    fig.tight_layout()
+    fig.savefig(args.figure_dir / "compton_residuals.png", dpi=180)
+    plt.close(fig)
+
     x_grid = np.linspace(0.0, 2.0, 400)
     fig, ax = plt.subplots(figsize=(7.4, 5.0))
     ax.scatter(x[plot_index], y[plot_index], s=2, alpha=0.16, label="Eventos (submuestra visual)")
@@ -211,6 +235,9 @@ max_abs_complete_energy_conservation_residual_keV = {np.max(np.abs(energy_residu
 max_energy_not_in_gamma_plus_electron_keV = {np.max(electron_only_residual):.12g}
 max_abs_compton_relation_residual_keV = {np.max(np.abs(compton_residual)):.12g}
 rms_compton_relation_residual_keV = {np.sqrt(np.mean(compton_residual**2)):.12g}
+mean_nonlinear_fit_residual_keV = {np.mean(nonlinear_residual):.12g}
+rms_nonlinear_fit_residual_keV = {np.sqrt(np.mean(nonlinear_residual**2)):.12g}
+max_abs_nonlinear_fit_residual_keV = {np.max(np.abs(nonlinear_residual)):.12g}
 
 {explanation}
 El G4KleinNishinaModel de esta version incluye capas ligadas y movimiento inicial del electron;

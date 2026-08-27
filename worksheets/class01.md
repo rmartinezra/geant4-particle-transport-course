@@ -100,7 +100,9 @@ Abre la escena con Castle antes de inspeccionar los eventos del CSV.
 
 Nombre del archivo observado: _______________________________________________
 
-¿Qué trayectorias o vértices identificaste? __________________________________
+¿Qué trayectorias o vértices identificaste? Usa la leyenda verde = gamma incidente, amarillo = gamma dispersado y rojo = electrón de retroceso.
+
+____________________________________________________________________________
 
 ____________________________________________________________________________
 

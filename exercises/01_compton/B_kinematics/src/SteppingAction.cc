@@ -35,10 +35,55 @@
 #include "HistoManager.hh"
 #include "G4RunManager.hh"
 #include "G4Event.hh"
+#include "G4Colour.hh"
+#include "G4Polyline.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4VVisManager.hh"
+#include "G4VisAttributes.hh"
 
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
+
+namespace {
+
+G4bool ShowComptonKinematicGuides()
+{
+  const char* value = std::getenv("G4COURSE_VISUALIZE_COMPTON_GUIDES");
+  return value != nullptr && G4String(value) == "1";
+}
+
+void DrawComptonKinematicGuides(const G4Step* step)
+{
+  G4VVisManager* visManager = G4VVisManager::GetConcreteInstance();
+  if (visManager == nullptr) return;
+
+  const G4ThreeVector vertex = step->GetPostStepPoint()->GetPosition();
+  const G4ThreeVector gammaDirection =
+      step->GetPostStepPoint()->GetMomentumDirection().unit();
+  G4Polyline gammaGuide;
+  gammaGuide.push_back(vertex);
+  gammaGuide.push_back(vertex + 1.5*cm*gammaDirection);
+  G4VisAttributes gammaStyle(G4Colour(1., 1., 0.));
+  gammaStyle.SetLineWidth(4.);
+  gammaGuide.SetVisAttributes(gammaStyle);
+  visManager->Draw(gammaGuide);
+
+  for (const auto* secondary : *step->GetSecondaryInCurrentStep()) {
+    if (secondary->GetDefinition()->GetParticleName() != "e-") continue;
+    G4Polyline electronGuide;
+    electronGuide.push_back(vertex);
+    electronGuide.push_back(
+        vertex + 1.0*cm*secondary->GetMomentumDirection().unit());
+    G4VisAttributes electronStyle(G4Colour(1., 0., 0.));
+    electronStyle.SetLineWidth(4.);
+    electronGuide.SetVisAttributes(electronStyle);
+    visManager->Draw(electronGuide);
+    break;
+  }
+}
+
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -103,6 +148,10 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     analysisManager->FillNtupleDColumn(13, aStep->GetTotalEnergyDeposit()/keV);
     analysisManager->FillNtupleDColumn(14, otherSecondaryEnergy/keV);
     analysisManager->AddNtupleRow();
+
+    if (ShowComptonKinematicGuides()) {
+      DrawComptonKinematicGuides(aStep);
+    }
   }
      
   //scattered primary particle
@@ -137,9 +186,10 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     if (charge != 0.) { run->SumeTransf(energy); }         
   }
          
-  // kill event after first interaction
+  // The experiment stores only the first interaction and always stops here.
+  // Visualization adds scaled direction guides before aborting the event.
   //
-  G4RunManager::GetRunManager()->AbortEvent();  
+  G4RunManager::GetRunManager()->AbortEvent();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

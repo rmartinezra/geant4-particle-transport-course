@@ -28,7 +28,7 @@ Un valor cercano a $511\ \mathrm{keV}$. Geant4 puede incorporar electrones ligad
 
 ## VISUALIZACIÓN
 
-El WRL muestra fotones incidentes, cambios de dirección Compton y electrones secundarios cuando corresponda.
+El WRL muestra el estado final de cada primera interacción: verde para el gamma incidente, amarillo para la dirección del fotón dispersado y rojo para la del electrón de retroceso. Los vectores amarillo y rojo conservan las direcciones de Geant4, pero se escalan para ser visibles; su longitud no representa el alcance físico.
 
 ## RESULTADOS ESPERADOS
 

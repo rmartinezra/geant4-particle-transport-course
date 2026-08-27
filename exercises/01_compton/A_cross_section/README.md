@@ -22,7 +22,7 @@ $\lambda=1/\mu$ y $\sigma=\mu/n$, exclusivamente de los eventos. `G4EmCalculator
 
 ## VISUALIZACIÓN
 
-El WRL muestra el bloque de Al, fotones transmitidos, fotones dispersados y secundarios cuando aparecen.
+El WRL muestra el bloque de Al y el estado final de cada primera interacción: verde para el gamma incidente o transmitido, amarillo para la dirección del fotón dispersado y rojo para la del electrón de retroceso. Los vectores amarillo y rojo conservan las direcciones de Geant4, pero se escalan para ser visibles; su longitud no representa el alcance físico.
 
 ## RESULTADOS ESPERADOS
 

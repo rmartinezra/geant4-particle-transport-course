@@ -14,8 +14,11 @@ from pathlib import Path
 
 def arguments() -> argparse.Namespace:
     project = Path(__file__).resolve().parents[1]
+    repository = project.parents[2]
     parser = argparse.ArgumentParser()
-    parser.add_argument("--executable", type=Path, default=project.parent / "build" / "B" / "TestEm14")
+    parser.add_argument(
+        "--executable", type=Path, default=repository / "build" / "ex1b" / "TestEm14"
+    )
     parser.add_argument("--events", type=int, default=200_000)
     parser.add_argument("--energy-kev", type=float, default=300.0)
     parser.add_argument("--seed", type=int, default=20260812)
@@ -52,7 +55,7 @@ def main() -> int:
     executable = args.executable.resolve()
     output = args.output.resolve()
     if not executable.is_file():
-        raise SystemExit(f"No existe el ejecutable: {executable}. Ejecute build_and_test.sh")
+        raise SystemExit(f"No existe el ejecutable: {executable}. Ejecute make build")
     if output.exists() and not args.force:
         raise SystemExit(f"Ya existe {output}; use --force para reemplazarlo conscientemente")
 
