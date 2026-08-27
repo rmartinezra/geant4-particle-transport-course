@@ -459,11 +459,3 @@ Al finalizar debes poder responder, con tus propias palabras:
 4. ¿Qué diferencia existe entre sección eficaz total y diferencial?
 5. ¿Qué representa una trayectoria y qué contiene un evento Monte Carlo?
 6. ¿Cómo conecta una interacción microscópica con una trayectoria simulada?
-
-## Nota para quien guía la clase
-
-- Pida predicciones antes de mostrar cada ecuación o archivo.
-- Abra los WRL con Castle antes que los CSV, y los CSV antes que los scripts de análisis.
-- No muestre las gráficas FULL ni valores precisos durante la actividad.
-- Si falta tiempo, preserve el cálculo manual de 1A y la inspección evento a evento de 1B.
-- Reserve arquitectura detallada, likelihood, fits, residuos e incertidumbres para Clase 2.

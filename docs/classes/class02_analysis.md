@@ -469,13 +469,3 @@ Al finalizar debes poder explicar:
 6. por qué los eventos no caen exactamente sobre la curva de electrón libre;
 7. qué incluye y qué excluye cada incertidumbre reportada;
 8. cómo una seed, una versión y un commit hacen reproducible el resultado.
-
-## Nota para quien guía la clase
-
-- Pida una propuesta de modelo antes de abrir los scripts de análisis.
-- Revise cabeceras y consistencia de los CSV antes de mostrar ajustes.
-- Muestre siempre la figura principal junto con sus residuos.
-- Mantenga la referencia oculta hasta que cada grupo haya registrado su estimación.
-- Use FAST para la actividad y FULL solo como producción posterior planificada.
-- No convierta $\chi^2/\mathrm{dof}$ ni las líneas $\pm2$ en aprobaciones automáticas con tan pocos puntos.
-- Distinga dispersión del modelo, resolución instrumental e incertidumbre experimental total.
