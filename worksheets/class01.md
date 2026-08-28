@@ -18,7 +18,7 @@ Trabaja primero con tus predicciones y después contrástalas con la simulación
 
    ____________________________________________________________________________
 
-3. Si aumenta la sección eficaz microscópica $\sigma$ y el material no cambia, ¿$\lambda$ aumenta o disminuye? Explica.
+3. Si aumenta la sección eficaz microscópica $\sigma$ y el material no cambia, ¿aumenta o disminuye $\lambda$? Explica.
 
    ____________________________________________________________________________
 
@@ -114,11 +114,11 @@ $E_0=$ ________________________ keV
 
 $\theta=$ _____________________ grados
 
-$E'_{\mathrm{MC}}=$ _____________________ keV
+$E_{\mathrm{MC}}'=$ _____________________ keV
 
-$E'_{\mathrm{ideal}}=$ __________________ keV
+$E_{\mathrm{ideal}}'=$ __________________ keV
 
-$\mathrm{diferencia}=E'_{\mathrm{MC}}-E'_{\mathrm{ideal}}=$ __________________ keV
+$\mathrm{diferencia}=E_{\mathrm{MC}}'-E_{\mathrm{ideal}}'=$ __________________ keV
 
 `energía cinética del electrón =` _________________ keV
 
@@ -126,7 +126,7 @@ $\mathrm{diferencia}=E'_{\mathrm{MC}}-E'_{\mathrm{ideal}}=$ __________________ k
 
    ____________________________________________________________________________
 
-2. ¿La diferencia entre $E'_{\mathrm{MC}}$ y $E'_{\mathrm{ideal}}$ demuestra por sí sola un error? ¿Qué información adicional necesitarías?
+2. ¿La diferencia entre $E_{\mathrm{MC}}'$ y $E_{\mathrm{ideal}}'$ demuestra por sí sola un error? ¿Qué información adicional necesitarías?
 
    ____________________________________________________________________________
 
