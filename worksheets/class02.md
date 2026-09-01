@@ -1,5 +1,7 @@
 # Clase 2 — Hoja de trabajo
 
+Guía asociada: [Clase 2 — Del evento al resultado físico](../docs/classes/class02_analysis.md).
+
 Nombre: ________________________________________
 
 Fecha: _________________________________________

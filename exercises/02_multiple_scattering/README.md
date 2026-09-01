@@ -2,6 +2,16 @@
 
 **Pregunta del proyecto:** ¿cómo escalan la anchura angular y las colas al variar el espesor y el momento?
 
+Material para la sesión: [guía del Proyecto A](../../docs/projects/projectA_mcs.md) y [hoja de trabajo](../../worksheets/projects/projectA.md).
+
+```bash
+docker compose run --rm geant4-course make visualize-ex2
+docker compose run --rm geant4-course make run-ex2 FAST=1 VIS=0 SEED=20260901
+docker compose run --rm geant4-course make analyze-ex2
+```
+
+Datos, figuras, resumen y WRL quedan respectivamente en `generated/data/ex2/`, `generated/figures/ex2/`, `generated/fits/ex2/` y `generated/visualization/ex2/`.
+
 ## OBJETIVO
 
 Obtener la anchura angular y sus leyes de escala únicamente de trayectorias Geant4.

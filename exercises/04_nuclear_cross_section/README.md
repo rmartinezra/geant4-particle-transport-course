@@ -2,6 +2,16 @@
 
 **Pregunta del proyecto:** ¿cómo estimar una longitud de interacción sin eliminar los neutrones que escapan?
 
+Material para la sesión: [guía del Proyecto C](../../docs/projects/projectC_fission.md) y [hoja de trabajo](../../worksheets/projects/projectC.md).
+
+```bash
+docker compose run --rm geant4-course make visualize-ex4
+docker compose run --rm geant4-course make run-ex4 FAST=1 VIS=0 SEED=20260901
+docker compose run --rm geant4-course make analyze-ex4
+```
+
+Datos, figuras, resumen y WRL quedan respectivamente en `generated/data/ex4/`, `generated/figures/ex4/`, `generated/fits/ex4/` y `generated/visualization/ex4/`.
+
 ## OBJETIVO
 
 Reconstruir la sección eficaz `nFission` a partir de la primera distancia de fisión y censura derecha.

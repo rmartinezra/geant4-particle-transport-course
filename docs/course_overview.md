@@ -22,7 +22,7 @@ pregunta física → predicción → eventos Geant4 → observable → inferenci
 | Proyecto B | [Pérdida de energía](projects/projectB_energy_loss.md) | Aplicación |
 | Proyecto C | [Fisión y sección eficaz](projects/projectC_fission.md) | Aplicación |
 
-Las Clases 1 y 2 constituyen el recorrido guiado completo. Las fichas de los proyectos sirven como navegación y delimitación de las aplicaciones posteriores.
+Las Clases 1 y 2 constituyen el recorrido guiado completo. Los proyectos se desarrollan en clase con guías operativas y hojas de trabajo propias: cada una identifica la simulación, el material, la física, los comandos, los datos, las figuras y el WRL.
 
 ## Ruta conceptual
 
@@ -54,3 +54,13 @@ La [página principal](../README.md) contiene el inicio rápido y el mapa comple
 - Figuras principales y de residuos de ambas prácticas.
 - Registro de configuración, seeds, commit y limitaciones.
 - Comparación con las referencias realizada únicamente después de cerrar el análisis.
+
+## Material de los proyectos en clase
+
+| Proyecto | Guía | Hoja |
+|---|---|---|
+| A | [Muones y dispersión múltiple en hierro](projects/projectA_mcs.md) | [Hoja A](../worksheets/projects/projectA.md) |
+| B | [Muones y pérdida de energía en agua](projects/projectB_energy_loss.md) | [Hoja B](../worksheets/projects/projectB.md) |
+| C | [Neutrones y fisión en U-235](projects/projectC_fission.md) | [Hoja C](../worksheets/projects/projectC.md) |
+
+En los tres casos se conserva como evidencia la predicción, una captura del WRL, la seed, el commit, los CSV auditados, las figuras y una conclusión con unidades e incertidumbre.
