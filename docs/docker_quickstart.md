@@ -17,7 +17,7 @@ Compose también descarga la imagen automáticamente si todavía no existe, pero
 
 ## Validación integral posterior
 
-Cuando el docente lo indique, `make test` compila los cinco módulos, genera sus WRL, ejecuta simulaciones FAST, analiza los CSV y aplica tolerancias físicas docentes:
+Cuando el docente lo indique, `make test` compila los cinco módulos, genera sus WRL, ejecuta 1A y 1B con la producción FULL de Clase 2, mantiene FAST para los tres proyectos, analiza los CSV y aplica tolerancias físicas docentes:
 
 ```bash
 docker compose run --rm geant4-course make test
@@ -25,16 +25,16 @@ docker compose run --rm geant4-course make test
 
 Este comando no forma parte de la preparación de la Clase 1.
 
-## Análisis de la Clase 2
+## Producción FULL y análisis de la Clase 2
 
-Cuando ya existan los CSV de Compton 1A y 1B:
+La Clase 2 no reutiliza como resultado final los CSV FAST de la Clase 1. Genera 100 000 eventos por espesor en Compton 1A y 200 000 eventos en Compton 1B, sin repetir los WRL:
 
 ```bash
 docker compose run --rm geant4-course make class02-help
-docker compose run --rm geant4-course make analyze-class02
+docker compose run --rm geant4-course make run-class02 SEED=20260901
 ```
 
-El análisis crea figuras, residuos y resúmenes en `generated/` sin modificar los CSV de entrada.
+`run-class02` reemplaza los CSV FAST, ejecuta los análisis y crea figuras, residuos y resúmenes en `generated/`. Para separar las etapas usa primero `make prepare-class02 SEED=20260901` y después `make analyze-class02`. La segunda orden comprueba los conteos y metadatos FULL antes de comenzar los ajustes.
 
 ## Persistencia
 
@@ -87,5 +87,5 @@ No uses `latest` para entregar resultados evaluables; una etiqueta explícita ev
 - **CMake dice que el caché fue creado en otra ruta:** ocurre al alternar entre compilación local y Docker. El script actual detecta la diferencia y regenera únicamente el subdirectorio `build/` afectado; no elimina CSV, WRL ni figuras.
 - **Archivos propiedad de root:** antepone `UID=$(id -u) GID=$(id -g)` al comando Compose.
 - **Poco espacio:** la imagen ocupa aproximadamente 1.96 GB sin comprimir; `docker system df` muestra el uso local.
-- **Una corrida FULL tarda mucho:** empieza con `FAST=1`; la física es la misma y cambia la estadística.
+- **Una corrida FULL tarda mucho:** usa `FAST=1` para ensayar el flujo. La Clase 2 requiere deliberadamente FULL; conviene iniciar `make run-class02` con tiempo y no interrumpir el contenedor.
 - **El visor Linux no aparece bajo WSLg:** usa Castle Model Viewer para Windows según la [guía de visualización](visualization.md). El WRL ya fue generado correctamente; el visor se abre fuera de Docker.

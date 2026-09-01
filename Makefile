@@ -29,7 +29,8 @@ else
   EVENTS_EX4 := 10000
 endif
 
-.PHONY: help env-check class01-help class02-help analyze-class02 build test all clean clean-generated check-repo \
+.PHONY: help env-check class01-help class02-help prepare-class02 run-class02 validate-class02 analyze-class02 \
+	build test all clean clean-generated check-repo \
  run-ex1a analyze-ex1a visualize-ex1a run-ex1b analyze-ex1b visualize-ex1b \
  run-ex2 analyze-ex2 visualize-ex2 run-ex3 analyze-ex3 visualize-ex3 \
  run-ex4 analyze-ex4 visualize-ex4 visualize-all
@@ -38,7 +39,8 @@ help:
 	@echo "Curso Geant4 11.2.2"
 	@echo "  make env-check    # preparación técnica de Clase 1; no ejecuta resultados"
 	@echo "  make class01-help # ruta breve de trabajo para Clase 1"
-	@echo "  make class02-help # ruta breve de análisis para Clase 2"
+	@echo "  make class02-help # producción FULL y análisis de Clase 2"
+	@echo "  make run-class02  # genera 1A/1B FULL y ejecuta sus análisis"
 	@echo "  make build | test | all | check-repo"
 	@echo "  make run-ex1a ... run-ex4 [FAST=1|FULL=1] [VIS=0] [SEED=N]"
 	@echo "  make analyze-ex1a ... analyze-ex4"
@@ -63,13 +65,18 @@ class01-help:
 	@echo "  generated/visualization/"
 
 class02-help:
-	@echo "Antes de analizar, deben existir los CSV de 1A y 1B."
-	@echo "Si faltan, genéralos con:"
-	@echo "  make run-ex1a FAST=1 VIS=0"
-	@echo "  make run-ex1b FAST=1 VIS=0"
+	@echo "La Clase 2 usa una producción FULL nueva, sin repetir los WRL:"
+	@echo "  Ex1A: 100000 eventos por cada uno de los seis espesores"
+	@echo "  Ex1B: 200000 primeras interacciones Compton"
 	@echo
-	@echo "Análisis de la Clase 2:"
+	@echo "Producción y análisis completos:"
+	@echo "  make run-class02 [SEED=N]"
+	@echo
+	@echo "Para separar las etapas:"
+	@echo "  make prepare-class02 [SEED=N]"
 	@echo "  make analyze-class02"
+	@echo
+	@echo "AVISO: prepare-class02 reemplaza los CSV FAST de 1A y 1B."
 	@echo
 	@echo "Salidas:"
 	@echo "  generated/figures/ex1a/  generated/fits/ex1a/"
@@ -122,7 +129,31 @@ analyze-ex1b:
 	  --input generated/data/ex1b/compton_events.csv \
 	  --summary generated/fits/ex1b/summary_B.txt --figure-dir generated/figures/ex1b
 
-analyze-class02: analyze-ex1a analyze-ex1b
+prepare-class02: build
+	@echo "[CLASS02] Producción FULL: Ex1A=100000 eventos/espesor; Ex1B=200000 eventos."
+	@echo "[CLASS02] Se reemplazarán los CSV FAST existentes; los WRL no se regeneran."
+	@echo "[MC] Ex1A FULL: 100000 eventos por espesor"
+	@python3 exercises/01_compton/A_cross_section/scripts/run_scan.py \
+	  --executable build/ex1a/TestEm13 --events 100000 --seed $(SEED) \
+	  --output generated/data/ex1a/transmission_scan.csv \
+	  --logs-dir generated/logs/ex1a --force
+	@echo "[MC] Ex1B FULL: 200000 eventos"
+	@python3 exercises/01_compton/B_kinematics/scripts/run_compton.py \
+	  --executable build/ex1b/TestEm14 --events 200000 \
+	  --seed $$(( $(SEED) + 1000 )) \
+	  --output generated/data/ex1b/compton_events.csv \
+	  --logs-dir generated/logs/ex1b --force
+
+validate-class02:
+	@python3 scripts/validate_class02_inputs.py
+
+analyze-class02: validate-class02
+	@$(MAKE) --no-print-directory analyze-ex1a
+	@$(MAKE) --no-print-directory analyze-ex1b
+
+run-class02: prepare-class02
+	@$(MAKE) --no-print-directory analyze-class02
+	@echo "[CLASS02] Producción FULL y análisis terminados."
 
 run-ex2: build
 	$(call maybe_vis,ex2)

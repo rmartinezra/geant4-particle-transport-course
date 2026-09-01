@@ -6,7 +6,9 @@ Fecha: _________________________________________
 
 Commit del repositorio: ____________________________________________________
 
-Modo de producción: `FAST=1` / normal / `FULL=1`
+Modo de producción requerido: `FULL=1`
+
+Seed base de Clase 2: _______________________________________________________
 
 Trabaja primero con tus datos y consulta los resultados de referencia únicamente cuando la hoja lo indique.
 
@@ -52,7 +54,7 @@ Archivo analizado: __________________________________________________________
 
 Número de espesores: __________________
 
-Eventos por espesor: __________________
+Eventos por espesor: __________________ (esperado: 100 000)
 
 Material: _____________________________
 
@@ -126,7 +128,7 @@ $$
 | Exponencial ponderado | __________ | __________ | __________________ |
 | Lineal en $\ln T$ | __________ | __________ | __________________ |
 
-¿Los tres resultados son compatibles dentro de la precisión FAST? Explica sin promediarlos:
+¿Los tres resultados FULL son compatibles dentro de sus incertidumbres? Explica sin promediarlos:
 
 ____________________________________________________________________________
 
@@ -160,7 +162,7 @@ ____________________________________________________________________________
 
 Archivo analizado: __________________________________________________________
 
-Número de eventos: __________________
+Número de eventos: __________________ (esperado: 200 000)
 
 $E_0=$ __________________ keV
 
@@ -276,7 +278,9 @@ ____________________________________________________________________________
 
 - [ ] Commit anotado.
 - [ ] Geant4 11.2.2 confirmado.
-- [ ] FAST/normal/FULL registrado.
+- [ ] Producción `FULL=1` confirmada.
+- [ ] 100 000 eventos por espesor confirmados en 1A.
+- [ ] 200 000 eventos confirmados en 1B.
 - [ ] Número de eventos registrado.
 - [ ] Seeds de simulación registradas.
 - [ ] Seed de smearing registrada, si aplica.

@@ -69,10 +69,10 @@ Cada comando compila si hace falta, produce un WRL corto y ejecuta el barrido FA
 
 ```bash
 docker compose run --rm geant4-course make class02-help
-docker compose run --rm geant4-course make analyze-class02
+docker compose run --rm geant4-course make run-class02 SEED=20260901
 ```
 
-El segundo comando reutiliza los CSV de 1A y 1B y produce ajustes, incertidumbres, figuras principales y residuos. Si los CSV no existen, la [guía de la Clase 2](docs/classes/class02_analysis.md) indica cómo generarlos en modo FAST sin repetir los WRL.
+El segundo comando genera una producción **FULL propia de la Clase 2** —100 000 eventos por cada espesor de 1A y 200 000 eventos en 1B— y después produce ajustes, incertidumbres, figuras principales y residuos. No repite los WRL. La corrida reemplaza los CSV FAST de la Clase 1 y puede tardar varios minutos; la seed queda fijada para que el resultado sea reproducible. `make analyze-class02` comprueba esos conteos y se niega a usar por accidente una muestra FAST.
 
 ### No ejecutar todavía
 
@@ -148,11 +148,13 @@ generated/
 | Comprobar el entorno de Clase 1 | `make env-check` |
 | Ver la ruta de Clase 1 sin ejecutarla | `make class01-help` |
 | Ver la ruta de Clase 2 | `make class02-help` |
+| Generar los CSV FULL de Clase 2 | `make prepare-class02` |
+| Ejecutar producción FULL y análisis de Clase 2 | `make run-class02` |
 | Ver todas las opciones | `make help` |
 | Ejecutar una práctica FAST | `make run-ex1a FAST=1` |
 | Crear solo su WRL | `make visualize-ex1a` |
 | Analizar más adelante | `make analyze-ex1a` |
-| Analizar 1A y 1B en Clase 2 | `make analyze-class02` |
+| Repetir solo el análisis de 1A y 1B | `make analyze-class02` |
 | Validar el repositorio completo más adelante | `make test` |
 | Borrar resultados generados | `make clean-generated` |
 

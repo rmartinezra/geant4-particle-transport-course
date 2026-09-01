@@ -1,22 +1,24 @@
 # Antes de la clase
 
-La Clase 2 usa los eventos producidos en las prácticas Compton 1A y 1B para construir estimadores, incertidumbres, ajustes y diagnósticos. El entorno técnico es el mismo de la Clase 1: imagen Docker fijada en Geant4 11.2.2 y resultados persistentes en `generated/`.
+La Clase 2 parte de las prácticas Compton 1A y 1B, pero genera una producción estadística propia para construir estimadores, incertidumbres, ajustes y diagnósticos. El entorno técnico es el mismo de la Clase 1: imagen Docker fijada en Geant4 11.2.2 y resultados persistentes en `generated/`.
 
-Comprueba primero qué archivos tienes:
+Consulta primero la ruta de trabajo:
 
 ```bash
 docker compose run --rm geant4-course make class02-help
+```
+
+Antes de analizar, genera los datos FULL de la clase sin repetir la visualización:
+
+```bash
+docker compose run --rm geant4-course \
+  make prepare-class02 SEED=20260901
 
 test -s generated/data/ex1a/transmission_scan.csv
 test -s generated/data/ex1b/compton_events.csv
 ```
 
-Si alguno falta, genera una muestra rápida sin repetir la visualización:
-
-```bash
-docker compose run --rm geant4-course make run-ex1a FAST=1 VIS=0
-docker compose run --rm geant4-course make run-ex1b FAST=1 VIS=0
-```
+`prepare-class02` ejecuta 100 000 eventos por cada uno de los seis espesores de 1A y 200 000 primeras interacciones en 1B. Reemplaza los CSV FAST de la Clase 1, conserva los WRL anteriores y registra la seed base; 1B usa esa seed más 1000 para no reutilizar la misma pareja de seeds. Si se desea hacer producción y análisis en una sola orden, usa `make run-class02 SEED=20260901`. El target `analyze-class02` valida los conteos y metadatos antes de ajustar, por lo que no acepta accidentalmente los CSV FAST.
 
 No consultes todavía los [resultados de referencia](../expected_results.md). Primero registra tus decisiones en la [hoja de trabajo](../../worksheets/class02.md), ejecuta los ajustes y examina los residuos.
 
@@ -257,7 +259,7 @@ Discute:
 
 1. ¿Los residuos alternan alrededor de cero o presentan una tendencia?
 2. ¿Un espesor domina visualmente el desacuerdo?
-3. ¿Cambiar de FAST a FULL debería reducir la dispersión típica?
+3. ¿Pasar de la muestra preliminar FAST a esta producción FULL debería reducir la dispersión típica?
 4. ¿Una incertidumbre menor garantiza que el modelo sea correcto?
 
 # Bloque C — Compton 1B: recuperar una escala de energía
@@ -405,7 +407,7 @@ Una entrega reproducible debe identificar:
 
 - commit del repositorio;
 - imagen y versión de Geant4;
-- `FAST=1`, modo normal o `FULL=1`;
+- producción `FULL=1` de Clase 2;
 - número de eventos y seeds;
 - CSV de entrada;
 - script y opciones de análisis;
@@ -421,9 +423,9 @@ git rev-parse HEAD
 
 Los JSON de metadatos y logs bajo `generated/` complementan esa información.
 
-## 2. FAST no significa física diferente
+## 2. De FAST en Clase 1 a FULL en Clase 2
 
-`FAST=1` reduce el número de eventos. Es útil para aprender el flujo y detectar errores, pero produce incertidumbres mayores y residuos más variables. `FULL=1` conserva la configuración física y aumenta la estadística de producción.
+`FAST=1` se usa en la Clase 1 para aprender el flujo y detectar errores con rapidez, pero produce incertidumbres mayores y residuos más variables. La Clase 2 vuelve a ejecutar las mismas configuraciones con `FULL=1`: 100 000 eventos por espesor en 1A y 200 000 eventos en 1B. Aumenta la estadística, no cambia la física.
 
 No repitas corridas hasta obtener por casualidad el resultado más cercano a la referencia. Define la configuración y la seed antes de mirar el valor ajustado.
 
