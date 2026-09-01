@@ -33,7 +33,7 @@ física microscópica → sección eficaz → camino libre medio
 ```
 
 1. En la Clase 1, el estudiante interpreta una interacción microscópica como una probabilidad macroscópica de supervivencia. Primero predice y visualiza; después calcula a mano a partir de CSV.
-2. En la Clase 2 se organiza el paso desde datos por evento hasta estimadores, incertidumbres, residuos y ajustes reproducibles.
+2. En la Clase 2 se genera una producción FULL propia —100 000 eventos por espesor en 1A y 200 000 eventos en 1B— y se organiza el paso desde esos datos hasta estimadores, incertidumbres, residuos y ajustes reproducibles.
 3. En los proyectos A, B y C se aplicará la misma cadena a dispersión angular, pérdida de energía y fisión, respectivamente.
 
 No se espera que el estudiante ejecute todos los módulos al comenzar. Antes de la Clase 1 basta con descargar la imagen y usar `make env-check`; las corridas `FULL=1` y los [resultados de referencia](expected_results.md) se reservan para el momento indicado por el docente.
@@ -49,6 +49,7 @@ La [página principal](../README.md) contiene el inicio rápido y el mapa comple
 ## Entregables de la Clase 2
 
 - [Hoja de trabajo de la Clase 2](../worksheets/class02.md).
+- CSV FULL de 1A y 1B producidos con `make prepare-class02` y una seed registrada.
 - Resultados de los ajustes de 1A y 1B con unidades e incertidumbres.
 - Figuras principales y de residuos de ambas prácticas.
 - Registro de configuración, seeds, commit y limitaciones.
