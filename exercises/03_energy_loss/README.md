@@ -2,6 +2,16 @@
 
 **Pregunta del proyecto:** ¿cómo se reparten la pérdida del primario, el depósito local y la energía de los secundarios?
 
+Material para la sesión: [guía del Proyecto B](../../docs/projects/projectB_energy_loss.md) y [hoja de trabajo](../../worksheets/projects/projectB.md).
+
+```bash
+docker compose run --rm geant4-course make visualize-ex3
+docker compose run --rm geant4-course make run-ex3 FAST=1 VIS=0 SEED=20260901
+docker compose run --rm geant4-course make analyze-ex3
+```
+
+Datos, figuras, resumen y WRL quedan respectivamente en `generated/data/ex3/`, `generated/figures/ex3/`, `generated/fits/ex3/` y `generated/visualization/ex3/`.
+
 ## OBJETIVO
 
 Medir $dE/dx$ de muones en agua y separar balances energéticos.

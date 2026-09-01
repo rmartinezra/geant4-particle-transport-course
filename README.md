@@ -67,6 +67,11 @@ Cada comando compila si hace falta, produce un WRL corto y ejecuta el barrido FA
 
 ### Durante Clase 2
 
+Ten abiertos estos dos documentos durante toda la sesión:
+
+- **[Guía de la Clase 2](docs/classes/class02_analysis.md):** explicación, ecuaciones, comandos y lectura de residuos.
+- **[Hoja de trabajo de la Clase 2](worksheets/class02.md):** registro de predicciones, auditoría y resultados.
+
 ```bash
 docker compose run --rm geant4-course make class02-help
 docker compose run --rm geant4-course make run-class02 SEED=20260901
@@ -74,9 +79,21 @@ docker compose run --rm geant4-course make run-class02 SEED=20260901
 
 El segundo comando genera una producción **FULL propia de la Clase 2** —100 000 eventos por cada espesor de 1A y 200 000 eventos en 1B— y después produce ajustes, incertidumbres, figuras principales y residuos. No repite los WRL. La corrida reemplaza los CSV FAST de la Clase 1 y puede tardar varios minutos; la seed queda fijada para que el resultado sea reproducible. `make analyze-class02` comprueba esos conteos y se niega a usar por accidente una muestra FAST.
 
-### No ejecutar todavía
+### Proyectos para desarrollar en clase
 
-Si quieres evitar spoilers antes de la clase, no ejecutes `make test`, `make all`, `make all FULL=1`, targets `analyze-*` ni consultes los resultados FULL.
+Cada proyecto tiene una guía de actividad y una hoja de trabajo listas para usar. Las guías identifican la simulación, el material físico, la configuración de Geant4, los comandos y las salidas que deben inspeccionarse; las hojas no contienen las respuestas.
+
+| Proyecto | Guía | Hoja de trabajo |
+|---|---|---|
+| A · Muones y dispersión múltiple en hierro | [Abrir guía](docs/projects/projectA_mcs.md) | [Abrir hoja](worksheets/projects/projectA.md) |
+| B · Muones y pérdida de energía en agua | [Abrir guía](docs/projects/projectB_energy_loss.md) | [Abrir hoja](worksheets/projects/projectB.md) |
+| C · Neutrones y fisión en U-235 | [Abrir guía](docs/projects/projectC_fission.md) | [Abrir hoja](worksheets/projects/projectC.md) |
+
+La secuencia recomendada es la misma en los tres casos: generar y observar el WRL, ejecutar la muestra `FAST=1` con una seed anotada, analizar los CSV y discutir las figuras. La producción `FULL=1` se reserva para cuando se necesite mayor precisión.
+
+### Si solo estás preparando la Clase 1, no ejecutar todavía
+
+Si aún no has llegado a la sesión de análisis o a los proyectos, evita `make test`, `make all`, `make all FULL=1`, los targets `analyze-*` y los resultados FULL. Durante la Clase 2 y los proyectos sí se ejecutan los análisis indicados por sus respectivas guías.
 
 ## Primero, observa las simulaciones
 

@@ -76,6 +76,10 @@ class02-help:
 	@echo "  make prepare-class02 [SEED=N]"
 	@echo "  make analyze-class02"
 	@echo
+	@echo "Documentos para tener abiertos:"
+	@echo "  docs/classes/class02_analysis.md"
+	@echo "  worksheets/class02.md"
+	@echo
 	@echo "AVISO: prepare-class02 reemplaza los CSV FAST de 1A y 1B."
 	@echo
 	@echo "Salidas:"

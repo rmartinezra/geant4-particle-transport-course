@@ -2,6 +2,8 @@
 
 La Clase 2 parte de las prácticas Compton 1A y 1B, pero genera una producción estadística propia para construir estimadores, incertidumbres, ajustes y diagnósticos. El entorno técnico es el mismo de la Clase 1: imagen Docker fijada en Geant4 11.2.2 y resultados persistentes en `generated/`.
 
+**Material de la sesión:** ten abiertas esta guía y la [hoja de trabajo de la Clase 2](../../worksheets/class02.md). La guía explica el método; la hoja conserva las decisiones y resultados del estudiante.
+
 Consulta primero la ruta de trabajo:
 
 ```bash
